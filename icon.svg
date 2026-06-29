@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <rect width="512" height="512" rx="110" fill="#07080f"/>
+  <defs>
+    <linearGradient id="a" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#c090ff"/>
+      <stop offset="50%" stop-color="#60b0ff"/>
+      <stop offset="100%" stop-color="#40e0b0"/>
+    </linearGradient>
+    <linearGradient id="b" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.35"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.25"/>
+    </linearGradient>
+    <filter id="glow">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <!-- gem shape -->
+  <g filter="url(#glow)">
+    <!-- top facets -->
+    <polygon points="256,100 340,200 256,185 172,200" fill="url(#a)" opacity="0.95"/>
+    <!-- left top -->
+    <polygon points="172,200 256,185 256,330 140,250" fill="url(#a)" opacity="0.7"/>
+    <!-- right top -->
+    <polygon points="340,200 256,185 256,330 372,250" fill="url(#a)" opacity="0.85"/>
+    <!-- left bottom -->
+    <polygon points="140,250 256,330 256,415" fill="url(#a)" opacity="0.6"/>
+    <!-- right bottom -->
+    <polygon points="372,250 256,330 256,415" fill="url(#a)" opacity="0.75"/>
+    <!-- overlay shine -->
+    <polygon points="256,100 340,200 256,185 172,200" fill="url(#b)"/>
+  </g>
+  <!-- subtle outer ring -->
+  <polygon points="256,100 340,200 372,250 256,415 140,250 172,200" fill="none" stroke="rgba(180,140,255,0.3)" stroke-width="2"/>
+</svg>
