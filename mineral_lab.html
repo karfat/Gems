@@ -12,127 +12,143 @@
 <meta name="apple-mobile-web-app-title" content="Геолаб">
 <link rel="apple-touch-icon" href="icon.svg">
 <style>
-* { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --bg: #07080f; --panel: #0f1020; --border: #252840;
-  --accent: #8860d0; --text: #d4d8f4; --text-dim: #5a6080;
+*{box-sizing:border-box;margin:0;padding:0;}
+:root{
+  --bg:#07080f;--panel:#0f1020;--border:#252840;
+  --accent:#8860d0;--text:#d4d8f4;--dim:#5a6080;
 }
-body { background: var(--bg); color: var(--text); font-family: 'Segoe UI', Arial, sans-serif; height: 100vh; display: flex; flex-direction: column; overflow: hidden; }
+body{background:var(--bg);color:var(--text);font-family:'Segoe UI',Arial,sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;}
+
 /* SPLASH */
-#splash { position: fixed; inset: 0; z-index: 100; background: #07080f; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 32px; transition: opacity 0.7s ease; }
-#splash.hidden { opacity: 0; pointer-events: none; }
-#splash .logo-wrap { animation: logo-in 0.9s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; }
-@keyframes logo-in { from { opacity: 0; transform: translateY(20px) scale(0.94); } to { opacity: 1; transform: translateY(0) scale(1); } }
-#splash .tagline { font-size: .85rem; color: var(--text-dim); letter-spacing: 2px; text-transform: uppercase; animation: logo-in 0.9s 0.15s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; }
-#splash .divider { width: 200px; height: 1px; background: linear-gradient(90deg, transparent, var(--border), transparent); animation: logo-in 0.9s 0.25s cubic-bezier(0.16,1,0.3,1) forwards; opacity: 0; }
+#splash{position:fixed;inset:0;z-index:100;background:#07080f;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;transition:opacity .7s ease;}
+#splash.hidden{opacity:0;pointer-events:none;}
+#splash .lw{animation:lin .9s cubic-bezier(.16,1,.3,1) forwards;opacity:0;}
+#splash .tl{font-size:.85rem;color:var(--dim);letter-spacing:2px;text-transform:uppercase;animation:lin .9s .15s cubic-bezier(.16,1,.3,1) forwards;opacity:0;}
+#splash .dv{width:200px;height:1px;background:linear-gradient(90deg,transparent,var(--border),transparent);animation:lin .9s .25s cubic-bezier(.16,1,.3,1) forwards;opacity:0;}
+@keyframes lin{from{opacity:0;transform:translateY(18px) scale(.94)}to{opacity:1;transform:none}}
+
 /* HEADER */
-header { flex-shrink: 0; padding: 12px 24px; background: linear-gradient(135deg,#110a28,#0a1230); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 16px; }
-.header-logo { height: 36px; opacity: 0.9; }
-.header-sep { width: 1px; height: 32px; background: var(--border); }
-header h1 { font-size: 1.2rem; font-weight: 700; background: linear-gradient(90deg,#c090ff,#60b0ff,#40e0b0); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; white-space: nowrap; }
-header p { font-size: .75rem; color: var(--text-dim); flex: 1; }
+header{flex-shrink:0;padding:10px 22px;background:linear-gradient(135deg,#110a28,#0a1230);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;}
+.hl{height:34px;opacity:.9;}
+.hs{width:1px;height:30px;background:var(--border);}
+header h1{font-size:1.15rem;font-weight:700;background:linear-gradient(90deg,#c090ff,#60b0ff,#40e0b0);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;white-space:nowrap;}
+header p{font-size:.72rem;color:var(--dim);flex:1;}
+
 /* LAYOUT */
-.game-layout { display: grid; grid-template-columns: 260px 1fr 310px; flex: 1; min-height: 0; overflow: hidden; }
-.panel { overflow-y: auto; min-height: 0; scrollbar-width: thin; scrollbar-color: var(--border) transparent; }
-.panel::-webkit-scrollbar { width: 5px; }
-.panel::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
-.panel-label { font-size: .65rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); padding: 14px 16px 8px; border-bottom: 1px solid var(--border); position: sticky; top: 0; background: var(--panel); z-index: 1; }
-/* LEFT */
-.panel-left { background: var(--panel); border-right: 1px solid var(--border); }
-.category-label { font-size: .6rem; text-transform: uppercase; letter-spacing: 1.5px; color: var(--text-dim); padding: 10px 14px 4px; }
-.ingredient-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; padding: 6px 12px; }
-.ingredient-card { background: #161828; border: 1px solid var(--border); border-radius: 8px; padding: 8px 6px; cursor: pointer; transition: all .15s; text-align: center; user-select: none; }
-.ingredient-card:hover { border-color: var(--accent); background: #1e1840; transform: translateY(-1px); }
-.ingredient-card.selected { border-color: #70c0ff; background: #122040; box-shadow: 0 0 10px rgba(80,180,255,.25); }
-.ingredient-card .sym { font-size: 1.05rem; font-weight: 700; color: #bcd0ff; line-height: 1.2; }
-.ingredient-card .nm { font-size: 1.12rem; color: var(--text-dim); margin-top: 2px; line-height: 1.2; }
-.ingredient-card.type-mineral { border-color: #30204a; }
-.ingredient-card.type-compound { border-color: #1a3040; }
-.ingredient-card.type-element { border-color: #202040; }
-/* CENTER */
-.panel-center { display: flex; flex-direction: column; align-items: center; padding: 20px 24px; gap: 16px; overflow-y: auto; }
-.reactor-wrap { position: relative; width: 240px; height: 240px; }
-.reactor-ring { position: absolute; inset: 0; border-radius: 50%; border: 3px solid #2a1860; background: radial-gradient(circle at 40% 35%, #1a0e40 0%, #080610 70%); box-shadow: 0 0 20px rgba(100,50,200,.2), inset 0 0 40px rgba(0,0,0,.7); transition: border-color .6s, box-shadow .6s; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-.reactor-ring.glow-warm { border-color: #703020; box-shadow: 0 0 30px rgba(180,80,30,.4), inset 0 0 40px rgba(100,30,0,.3); }
-.reactor-ring.glow-hot { border-color: #d06020; box-shadow: 0 0 50px rgba(220,100,40,.6), inset 0 0 60px rgba(160,60,0,.5); animation: pulse-hot 1.8s ease-in-out infinite; }
-.reactor-ring.glow-pressure { border-color: #204080; box-shadow: 0 0 40px rgba(40,120,220,.5), inset 0 0 50px rgba(20,60,150,.4); }
-.reactor-ring.glow-both { border-color: #a04020; box-shadow: 0 0 60px rgba(200,80,30,.7), 0 0 20px rgba(40,80,200,.4), inset 0 0 60px rgba(120,40,0,.5); animation: pulse-both 1.5s ease-in-out infinite; }
-@keyframes pulse-hot { 0%,100% { box-shadow: 0 0 50px rgba(220,100,40,.6),inset 0 0 60px rgba(160,60,0,.5); } 50% { box-shadow: 0 0 70px rgba(255,120,50,.8),inset 0 0 80px rgba(200,80,0,.7); } }
-@keyframes pulse-both { 0%,100% { box-shadow: 0 0 60px rgba(200,80,30,.7),0 0 20px rgba(40,80,200,.4),inset 0 0 60px rgba(120,40,0,.5); } 50% { box-shadow: 0 0 80px rgba(255,100,40,.9),0 0 30px rgba(60,100,255,.5),inset 0 0 80px rgba(160,60,0,.7); } }
-.chamber-slots { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; padding: 16px; max-width: 180px; }
-.slot-chip { background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.16); border-radius: 6px; padding: 5px 10px; font-size: .85rem; font-weight: 600; color: #c0d8ff; position: relative; animation: chip-in .2s ease; }
-@keyframes chip-in { from { transform: scale(.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
-.slot-chip .x { position: absolute; top: -6px; right: -6px; width: 15px; height: 15px; background: #b03030; border-radius: 50%; font-size: 9px; display: flex; align-items: center; justify-content: center; cursor: pointer; color: white; border: none; line-height: 1; }
-.slot-chip .x:hover { background: #e04040; }
-.empty-hint { color: var(--text-dim); font-size: .75rem; text-align: center; line-height: 1.6; }
-.particle { position: absolute; border-radius: 50%; pointer-events: none; animation: burst .6s ease-out forwards; }
-@keyframes burst { 0% { transform: translate(0,0) scale(1); opacity: .9; } 100% { transform: translate(var(--tx),var(--ty)) scale(0); opacity: 0; } }
+.gl{display:grid;grid-template-columns:256px 1fr 308px;flex:1;min-height:0;overflow:hidden;}
+.pn{overflow-y:auto;min-height:0;scrollbar-width:thin;scrollbar-color:var(--border) transparent;}
+.pn::-webkit-scrollbar{width:4px;}
+.pn::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+.plb{font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--dim);padding:12px 14px 7px;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--panel);z-index:1;}
+.cl{font-size:.58rem;text-transform:uppercase;letter-spacing:1.5px;color:var(--dim);padding:9px 13px 3px;}
+
+/* LEFT PANEL */
+.pl{background:var(--panel);border-right:1px solid var(--border);}
+.ig{display:grid;grid-template-columns:1fr 1fr;gap:5px;padding:5px 10px;}
+.ic{background:#161828;border:1px solid var(--border);border-radius:8px;padding:7px 5px;cursor:pointer;transition:all .15s;text-align:center;user-select:none;}
+.ic:hover{border-color:var(--accent);background:#1e1840;transform:translateY(-1px);}
+.ic.sel{border-color:#70c0ff;background:#122040;box-shadow:0 0 10px rgba(80,180,255,.25);}
+.ic .sym{font-size:.95rem;font-weight:700;color:#bcd0ff;line-height:1.2;}
+.ic .nm{font-size:1.24rem;color:var(--dim);margin-top:2px;line-height:1.2;}
+.ic.te{border-color:#202040;}
+.ic.tc{border-color:#1a3040;}
+.ic.tm{border-color:#30204a;}
+.ic.ts{border-color:#402010;background:#1a0e05;}
+.ic.ts .sym{color:#ffb060;}
+
+/* CENTER PANEL */
+.pc{display:flex;flex-direction:column;align-items:center;padding:18px 20px;gap:14px;overflow-y:auto;}
+.rw{position:relative;width:230px;height:230px;}
+.rr{position:absolute;inset:0;border-radius:50%;border:3px solid #2a1860;background:radial-gradient(circle at 40% 35%,#1a0e40 0%,#080610 70%);box-shadow:0 0 18px rgba(100,50,200,.2),inset 0 0 40px rgba(0,0,0,.7);transition:border-color .6s,box-shadow .6s;display:flex;align-items:center;justify-content:center;overflow:hidden;}
+.rr.gw{border-color:#703020;box-shadow:0 0 28px rgba(180,80,30,.4),inset 0 0 40px rgba(100,30,0,.3);}
+.rr.gh{border-color:#d06020;box-shadow:0 0 50px rgba(220,100,40,.6),inset 0 0 60px rgba(160,60,0,.5);animation:ph 1.8s ease-in-out infinite;}
+.rr.gp{border-color:#204080;box-shadow:0 0 38px rgba(40,120,220,.5),inset 0 0 48px rgba(20,60,150,.4);}
+.rr.gb{border-color:#a04020;box-shadow:0 0 55px rgba(200,80,30,.7),0 0 18px rgba(40,80,200,.4),inset 0 0 58px rgba(120,40,0,.5);animation:pb 1.5s ease-in-out infinite;}
+.rr.gx{border-color:#ff2060!important;box-shadow:0 0 80px rgba(255,30,80,.8),0 0 28px rgba(80,30,255,.5),inset 0 0 80px rgba(180,0,60,.6)!important;animation:px 1s ease-in-out infinite!important;}
+@keyframes ph{0%,100%{box-shadow:0 0 50px rgba(220,100,40,.6),inset 0 0 60px rgba(160,60,0,.5)}50%{box-shadow:0 0 70px rgba(255,120,50,.8),inset 0 0 80px rgba(200,80,0,.7)}}
+@keyframes pb{0%,100%{box-shadow:0 0 55px rgba(200,80,30,.7),0 0 18px rgba(40,80,200,.4),inset 0 0 58px rgba(120,40,0,.5)}50%{box-shadow:0 0 80px rgba(255,100,40,.9),0 0 28px rgba(60,100,255,.5),inset 0 0 78px rgba(160,60,0,.7)}}
+@keyframes px{0%,100%{box-shadow:0 0 80px rgba(255,30,80,.8),inset 0 0 80px rgba(180,0,60,.6)}50%{box-shadow:0 0 120px rgba(255,60,100,1),0 0 38px rgba(100,40,255,.7),inset 0 0 100px rgba(220,0,80,.8)}}
+.cs{display:flex;flex-wrap:wrap;gap:5px;justify-content:center;padding:14px;max-width:180px;}
+.ch{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.16);border-radius:6px;padding:4px 9px;font-size:.82rem;font-weight:600;color:#c0d8ff;position:relative;animation:ci .2s ease;}
+@keyframes ci{from{transform:scale(.8);opacity:0}to{transform:scale(1);opacity:1}}
+.ch .cx{position:absolute;top:-6px;right:-6px;width:14px;height:14px;background:#b03030;border-radius:50%;font-size:8px;display:flex;align-items:center;justify-content:center;cursor:pointer;color:white;border:none;line-height:1;}
+.ch .cx:hover{background:#e04040;}
+.eh{color:var(--dim);font-size:.72rem;text-align:center;line-height:1.6;}
+.pt{position:absolute;border-radius:50%;pointer-events:none;animation:bu .6s ease-out forwards;}
+@keyframes bu{0%{transform:translate(0,0) scale(1);opacity:.9}100%{transform:translate(var(--tx),var(--ty)) scale(0);opacity:0}}
+
 /* SLIDERS */
-.sliders-wrap { width: 100%; max-width: 360px; display: flex; flex-direction: column; gap: 14px; }
-.slider-group { display: flex; flex-direction: column; gap: 6px; }
-.slider-row { display: flex; align-items: center; justify-content: space-between; font-size: .78rem; }
-.slider-row span:first-child { color: var(--text-dim); }
-.slider-val { font-weight: 700; color: var(--text); font-size: .82rem; }
-.slider-track { position: relative; height: 8px; border-radius: 4px; overflow: visible; }
-.slider-track.temp-track { background: linear-gradient(90deg,#1a2060 0%,#8030a0 40%,#ff4010 100%); }
-.slider-track.press-track { background: linear-gradient(90deg,#101830 0%,#204080 50%,#20a0e0 100%); }
-input[type=range] { -webkit-appearance: none; appearance: none; position: absolute; inset: 0; width: 100%; height: 100%; background: transparent; cursor: pointer; }
-input[type=range]::-webkit-slider-thumb { -webkit-appearance: none; width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid var(--accent); box-shadow: 0 0 8px rgba(130,80,220,.6); cursor: pointer; transition: transform .1s; }
-input[type=range]::-webkit-slider-thumb:hover { transform: scale(1.2); }
-input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 50%; background: white; border: 2px solid var(--accent); cursor: pointer; }
-.slider-labels { display: flex; justify-content: space-between; font-size: .6rem; color: var(--text-dim); margin-top: 2px; }
-/* REACT BTN */
-.react-btn { width: 100%; max-width: 360px; padding: 13px; font-size: 1rem; font-weight: 700; color: white; background: linear-gradient(135deg,#5020a0,#2050b0); border: none; border-radius: 12px; cursor: pointer; letter-spacing: 1px; text-transform: uppercase; transition: all .2s; }
-.react-btn:hover:not(:disabled) { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(70,30,180,.5); }
-.react-btn:disabled { opacity: .35; cursor: not-allowed; }
-.react-btn.reacting { animation: btn-pulse .5s ease; }
-@keyframes btn-pulse { 0%{transform:scale(1)} 30%{transform:scale(.97)} 70%{transform:scale(1.02)} 100%{transform:scale(1)} }
-/* RIGHT */
-.panel-right { background: var(--panel); border-left: 1px solid var(--border); }
-.result-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; height: calc(100% - 44px); gap: 10px; color: var(--text-dim); text-align: center; padding: 24px; }
-.result-empty .big { font-size: 2.8rem; opacity: .25; }
-.result-empty p { font-size: .8rem; line-height: 1.6; }
-.mineral-card { animation: card-in .4s ease; }
-@keyframes card-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-.mineral-hero { padding: 20px 16px 16px; text-align: center; background: linear-gradient(135deg,#12102a,#0a1420); border-bottom: 1px solid var(--border); }
-.mineral-icon { font-size: 3rem; display: block; margin-bottom: 6px; }
-.mineral-name { font-size: 1.3rem; font-weight: 700; color: #e0d8ff; }
-.mineral-en { font-size: .72rem; color: var(--text-dim); margin-top: 2px; }
-.mineral-formula { display: inline-block; margin-top: 6px; padding: 3px 10px; background: rgba(80,120,220,.15); border: 1px solid rgba(80,120,220,.3); border-radius: 20px; font-family: monospace; font-size: .85rem; color: #80c0ff; }
-.mineral-desc { margin-top: 10px; font-size: .78rem; color: var(--text-dim); line-height: 1.6; text-align: left; }
-.reaction-eq { margin: 12px 16px 0; padding: 10px 12px; background: rgba(60,180,100,.08); border: 1px solid rgba(60,180,100,.2); border-radius: 8px; font-size: .76rem; color: #70d090; line-height: 1.6; }
-.props-section { padding: 10px 16px 16px; }
-.props-title { font-size: .62rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-dim); margin-bottom: 10px; margin-top: 10px; }
-.props-table { width: 100%; border-collapse: collapse; }
-.props-table tr { border-bottom: 1px solid #1a1c30; }
-.props-table tr:last-child { border-bottom: none; }
-.props-table td { padding: 7px 4px; vertical-align: top; font-size: .77rem; }
-.props-table td:first-child { color: var(--text-dim); font-size: .68rem; text-transform: uppercase; letter-spacing: .5px; width: 38%; padding-right: 10px; }
-.props-table td:last-child { color: var(--text); }
-.hardness-bar { display: flex; gap: 2px; margin-top: 4px; }
-.h-pip { height: 6px; border-radius: 2px; background: #1e2040; flex: 1; }
-.h-pip.on { background: linear-gradient(90deg,#5060ff,#c060ff); }
-.no-reaction { margin: 16px; padding: 16px; background: rgba(180,60,50,.08); border: 1px solid rgba(180,60,50,.25); border-radius: 10px; text-align: center; animation: card-in .3s ease; }
-.no-reaction .nr-icon { font-size: 2rem; margin-bottom: 8px; }
-.no-reaction .nr-title { font-size: .9rem; font-weight: 600; color: #e08080; margin-bottom: 6px; }
-.no-reaction .nr-text { font-size: .76rem; color: var(--text-dim); line-height: 1.6; }
-.no-reaction .nr-hint { margin-top: 10px; padding: 8px; background: rgba(255,255,255,.04); border-radius: 6px; font-size: .73rem; color: var(--text-dim); line-height: 1.5; }
-@media (max-width: 768px) {
-  body { overflow: auto; }
-  .game-layout { grid-template-columns: 1fr; overflow: visible; }
-  .panel-left, .panel-right { border-right: none; border-left: none; border-bottom: 1px solid var(--border); overflow: visible; }
-  .panel-left { order: 1; } .panel-center { order: 2; } .panel-right { order: 3; min-height: 400px; }
-  header { flex-direction: column; align-items: flex-start; gap: 4px; }
-  .reactor-wrap { width: 200px; height: 200px; }
+.sw{width:100%;max-width:350px;display:flex;flex-direction:column;gap:12px;}
+.sg{display:flex;flex-direction:column;gap:5px;}
+.sr{display:flex;align-items:center;justify-content:space-between;font-size:.76rem;}
+.sr span:first-child{color:var(--dim);}
+.sv{font-weight:700;color:var(--text);font-size:.8rem;}
+.st{position:relative;height:8px;border-radius:4px;overflow:visible;}
+.st.tt{background:linear-gradient(90deg,#1a2060 0%,#8030a0 40%,#ff4010 100%);}
+.st.prt{background:linear-gradient(90deg,#101830 0%,#204080 50%,#20a0e0 100%);}
+input[type=range]{-webkit-appearance:none;appearance:none;position:absolute;inset:0;width:100%;height:100%;background:transparent;cursor:pointer;}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:white;border:2px solid var(--accent);box-shadow:0 0 7px rgba(130,80,220,.6);cursor:pointer;transition:transform .1s;}
+input[type=range]::-webkit-slider-thumb:hover{transform:scale(1.2);}
+input[type=range]::-moz-range-thumb{width:18px;height:18px;border-radius:50%;background:white;border:2px solid var(--accent);cursor:pointer;}
+.sl{display:flex;justify-content:space-between;font-size:.58rem;color:var(--dim);margin-top:2px;}
+
+/* REACT BUTTON */
+.rb{width:100%;max-width:350px;padding:12px;font-size:.95rem;font-weight:700;color:white;background:linear-gradient(135deg,#5020a0,#2050b0);border:none;border-radius:11px;cursor:pointer;letter-spacing:1px;text-transform:uppercase;transition:all .2s;}
+.rb:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 26px rgba(70,30,180,.5);}
+.rb:disabled{opacity:.35;cursor:not-allowed;}
+.rb.reacting{animation:bp .5s ease;}
+@keyframes bp{0%{transform:scale(1)}30%{transform:scale(.97)}70%{transform:scale(1.02)}100%{transform:scale(1)}}
+
+/* RIGHT PANEL */
+.pr{background:var(--panel);border-left:1px solid var(--border);}
+.re{display:flex;flex-direction:column;align-items:center;justify-content:center;height:calc(100% - 42px);gap:9px;color:var(--dim);text-align:center;padding:22px;}
+.re .big{font-size:2.6rem;opacity:.22;}
+.re p{font-size:.78rem;line-height:1.6;}
+.mc{animation:crd .4s ease;}
+@keyframes crd{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+.mh{padding:18px 14px 14px;text-align:center;background:linear-gradient(135deg,#12102a,#0a1420);border-bottom:1px solid var(--border);}
+.mi{font-size:2.8rem;display:block;margin-bottom:5px;}
+.mn{font-size:1.25rem;font-weight:700;color:#e0d8ff;}
+.me{font-size:.7rem;color:var(--dim);margin-top:1px;}
+.mf{display:inline-block;margin-top:5px;padding:3px 10px;background:rgba(80,120,220,.15);border:1px solid rgba(80,120,220,.3);border-radius:20px;font-family:monospace;font-size:.82rem;color:#80c0ff;}
+.sb{display:inline-block;margin:7px auto 0;padding:3px 12px;background:rgba(255,100,50,.12);border:1px solid rgba(255,110,50,.4);border-radius:20px;font-size:.68rem;color:#ff9060;font-weight:700;letter-spacing:.5px;}
+.md{margin-top:9px;font-size:.75rem;color:var(--dim);line-height:1.6;text-align:left;}
+.eq{margin:10px 14px 0;padding:9px 11px;background:rgba(60,180,100,.08);border:1px solid rgba(60,180,100,.2);border-radius:7px;font-size:.73rem;color:#70d090;line-height:1.6;}
+.ps{padding:8px 14px 14px;}
+.pt2{font-size:.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--dim);margin-bottom:8px;margin-top:8px;}
+.ptb{width:100%;border-collapse:collapse;}
+.ptb tr{border-bottom:1px solid #1a1c30;}
+.ptb tr:last-child{border-bottom:none;}
+.ptb td{padding:6px 3px;vertical-align:top;font-size:.74rem;}
+.ptb td:first-child{color:var(--dim);font-size:.65rem;text-transform:uppercase;letter-spacing:.5px;width:38%;padding-right:9px;}
+.hb{display:flex;gap:2px;margin-top:3px;}
+.hp{height:5px;border-radius:2px;background:#1e2040;flex:1;}
+.hp.on{background:linear-gradient(90deg,#5060ff,#c060ff);}
+.nr{margin:14px;padding:14px;background:rgba(180,60,50,.08);border:1px solid rgba(180,60,50,.25);border-radius:9px;text-align:center;animation:crd .3s ease;}
+.nr .ni{font-size:1.9rem;margin-bottom:7px;}
+.nr .ntt{font-size:.87rem;font-weight:600;color:#e08080;margin-bottom:5px;}
+.nr .nt{font-size:.74rem;color:var(--dim);line-height:1.6;}
+.nr .nh{margin-top:9px;padding:7px;background:rgba(255,255,255,.04);border-radius:5px;font-size:.71rem;color:var(--dim);line-height:1.5;}
+
+/* MOBILE */
+@media (max-width:768px){
+  body{overflow:auto;height:auto;}
+  .gl{display:flex;flex-direction:column;overflow:visible;height:auto;}
+  .pl{order:1;border-right:none;border-bottom:1px solid var(--border);height:320px;overflow-y:auto;flex-shrink:0;}
+  .pc{order:2;flex-shrink:0;overflow:visible;padding:14px 16px;gap:12px;}
+  .pr{order:3;border-left:none;border-bottom:1px solid var(--border);min-height:380px;flex-shrink:0;}
+  header{flex-direction:column;align-items:flex-start;gap:3px;}
+  .rw{width:190px;height:190px;}
+  .sw{max-width:100%;}
+  .rb{max-width:100%;}
 }
 </style>
 </head>
 <body>
 
-<!-- SPLASH -->
 <div id="splash">
-  <div class="logo-wrap">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100" width="320" height="84">
+  <div class="lw">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100" width="310" height="82">
       <defs>
         <linearGradient id="sg" x1="0%" y1="0%" x2="100%" y2="0%">
           <stop offset="0%" style="stop-color:#7eb8f7"/>
@@ -147,89 +163,90 @@ input[type=range]::-moz-range-thumb { width: 20px; height: 20px; border-radius: 
       <text x="50%" y="88" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="30" font-weight="300" letter-spacing="14" fill="url(#sg)" opacity="0.85">Games</text>
     </svg>
   </div>
-  <div class="divider"></div>
-  <div class="tagline">Геологическая Лаборатория</div>
+  <div class="dv"></div>
+  <div class="tl">Геологическая Лаборатория</div>
 </div>
 
-<!-- GAME -->
 <header>
-  <svg class="header-logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100">
-    <defs>
-      <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%">
-        <stop offset="0%" style="stop-color:#7eb8f7"/>
-        <stop offset="100%" style="stop-color:#a78bfa"/>
-      </linearGradient>
-      <filter id="hglow">
-        <feGaussianBlur stdDeviation="3" result="blur"/>
-        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-      </filter>
-    </defs>
-    <text x="50%" y="52" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="44" font-weight="800" letter-spacing="3" fill="url(#hg)" filter="url(#hglow)">Physical</text>
-    <text x="50%" y="88" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="30" font-weight="300" letter-spacing="14" fill="url(#hg)" opacity="0.85">Games</text>
+  <svg class="hl" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 380 100">
+    
+      <defs>
+        <linearGradient id="hg" x1="0%" y1="0%" x2="100%" y2="0%">
+          <stop offset="0%" style="stop-color:#7eb8f7"/>
+          <stop offset="100%" style="stop-color:#a78bfa"/>
+        </linearGradient>
+        <filter id="hglow">
+          <feGaussianBlur stdDeviation="3" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <text x="50%" y="52" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="44" font-weight="800" letter-spacing="3" fill="url(#hg)" filter="url(#hglow)">Physical</text>
+      <text x="50%" y="88" text-anchor="middle" font-family="'Segoe UI',Arial,sans-serif" font-size="30" font-weight="300" letter-spacing="14" fill="url(#hg)" opacity="0.85">Games</text>
+    
   </svg>
-  <div class="header-sep"></div>
+  <div class="hs"></div>
   <h1>&#128142; Геологическая Лаборатория</h1>
-  <p>Выберите реагенты, задайте температуру и давление &mdash; и запустите реакцию</p>
+  <p>Выберите реагенты, задайте T и P — и запустите реакцию</p>
 </header>
 
-<div class="game-layout">
-  <div class="panel panel-left">
-    <div class="panel-label">Реагенты (до 4)</div>
-    <div class="category-label">&#9883; Элементы</div>
-    <div class="ingredient-grid" id="gridElements"></div>
-    <div class="category-label">&#129514; Соединения</div>
-    <div class="ingredient-grid" id="gridCompounds"></div>
-    <div class="category-label">&#128142; Минералы</div>
-    <div class="ingredient-grid" id="gridMinerals"></div>
-    <div style="padding:12px 14px;font-size:.7rem;color:var(--text-dim);line-height:1.6;border-top:1px solid var(--border);margin-top:8px;">
-      &#128161; Нажмите на реагент, чтобы добавить его в реактор. Можно добавить до 4 реагентов.
+<div class="gl">
+  <div class="pn pl">
+    <div class="plb">Реагенты (до 4)</div>
+    <div class="cl">&#9883; Элементы</div>
+    <div class="ig" id="gEl"></div>
+    <div class="cl">&#129514; Соединения</div>
+    <div class="ig" id="gCo"></div>
+    <div class="cl">&#128142; Минералы</div>
+    <div class="ig" id="gMi"></div>
+    <div style="padding:10px 12px;font-size:.68rem;color:var(--dim);line-height:1.6;border-top:1px solid var(--border);margin-top:6px;">
+      &#128161; Нажмите реагент чтобы добавить (до 4). &#9889; — синтетические условия
     </div>
   </div>
 
-  <div class="panel-center">
-    <div style="font-size:.65rem;text-transform:uppercase;letter-spacing:2px;color:var(--text-dim);">Реактор</div>
-    <div class="reactor-wrap">
-      <div class="reactor-ring" id="reactorRing">
-        <div class="chamber-slots" id="chamberSlots">
-          <div class="empty-hint">Выберите<br>реагенты</div>
+  <div class="pc">
+    <div style="font-size:.62rem;text-transform:uppercase;letter-spacing:2px;color:var(--dim);">Реактор</div>
+    <div class="rw">
+      <div class="rr" id="rr">
+        <div class="cs" id="cs">
+          <div class="eh">Выберите<br>реагенты</div>
         </div>
       </div>
     </div>
-    <div class="sliders-wrap">
-      <div class="slider-group">
-        <div class="slider-row">
+    <div class="sw">
+      <div class="sg">
+        <div class="sr">
           <span>&#127777; Температура</span>
-          <span class="slider-val" id="tempLabel">500 &#176;C</span>
+          <span class="sv" id="tl">500 &#176;C</span>
         </div>
-        <div class="slider-track temp-track">
-          <input type="range" id="tempSlider" min="0" max="1500" value="500" step="10">
+        <div class="st tt">
+          <input type="range" id="ts" min="0" max="15000" value="500" step="50">
         </div>
-        <div class="slider-labels"><span>0 &#176;C</span><span>750 &#176;C</span><span>1500 &#176;C</span></div>
+        <div class="sl"><span>0 &#176;C</span><span>7500 &#176;C</span><span>15000 &#176;C</span></div>
       </div>
-      <div class="slider-group">
-        <div class="slider-row">
+      <div class="sg">
+        <div class="sr">
           <span>&#9881; Давление</span>
-          <span class="slider-val" id="pressLabel">0.50 ГПа</span>
+          <span class="sv" id="pl">0.50 ГПа</span>
         </div>
-        <div class="slider-track press-track">
-          <input type="range" id="pressSlider" min="0" max="200" value="33" step="1">
+        <div class="st prt">
+          <input type="range" id="ps" min="0" max="200" value="33" step="1">
         </div>
-        <div class="slider-labels"><span>0.001 ГПа</span><span>~1 ГПа</span><span>15 ГПа</span></div>
+        <div class="sl"><span>0.001 ГПа</span><span>~10 ГПа</span><span>150 ГПа</span></div>
       </div>
     </div>
-    <button class="react-btn" id="reactBtn" disabled onclick="doReaction()">&#9879; Запустить реакцию</button>
-    <div style="font-size:.68rem;color:var(--text-dim);text-align:center;line-height:1.5;max-width:320px;">
-      Земная кора: 0&ndash;10 ГПа &nbsp;&middot;&nbsp; Мантия: ~10&ndash;140 ГПа<br>
-      Магма: 700&ndash;1300 &#176;C &nbsp;&middot;&nbsp; Земное ядро: &gt;3000 &#176;C
+    <button class="rb" id="rb" disabled onclick="doReaction()">&#9879; Запустить реакцию</button>
+    <div style="font-size:.66rem;color:var(--dim);text-align:center;line-height:1.5;max-width:310px;">
+      Кора: 0–10 ГПа &nbsp;&middot;&nbsp; Мантия: 10–136 ГПа &nbsp;&middot;&nbsp; Ядро: &gt;136 ГПа<br>
+      Магма: 700–1300 &#176;C &nbsp;&middot;&nbsp; Ядро Земли: &gt;5000 &#176;C
     </div>
   </div>
 
-  <div class="panel panel-right">
-    <div class="panel-label">Результат</div>
-    <div id="resultArea">
-      <div class="result-empty">
+  <div class="pn pr">
+    <div class="plb">Результат</div>
+    <div id="ra">
+      <div class="re">
         <div class="big">&#128300;</div>
-        <p>Здесь появится образовавшийся минерал и его свойства.<br><br>Выберите реагенты и запустите реакцию!</p>
+        <p>Здесь появится образовавшийся минерал.<br><br>Выберите реагенты и запустите реакцию!</p>
       </div>
     </div>
   </div>
@@ -261,118 +278,121 @@ const INGREDIENTS = [
   {id:'Au',  sym:'Au',   name:'Золото',     type:'element'},
   {id:'Ag',  sym:'Ag',   name:'Серебро',    type:'element'},
   {id:'Be',  sym:'Be',   name:'Бериллий',   type:'element'},
-  {id:'B',   sym:'B',    name:'Бор',        type:'element'},
   {id:'Cl',  sym:'Cl₂', name:'Хлор',       type:'element'},
   {id:'Mo',  sym:'Mo',  name:'Молибден',   type:'element'},
   {id:'W',   sym:'W',   name:'Вольфрам',   type:'element'},
-  {id:'Sn',  sym:'Sn',  name:'Олово',      type:'element'},
   {id:'As',  sym:'As',  name:'Мышьяк',     type:'element'},
   {id:'Hg',  sym:'Hg',  name:'Ртуть',      type:'element'},
   {id:'Co',  sym:'Co',  name:'Кобальт',    type:'element'},
-  {id:'V',   sym:'V',   name:'Ванадий',    type:'element'},
-  {id:'Zr',  sym:'Zr',  name:'Цирконий',   type:'element'},
-  {id:'Li',  sym:'Li',  name:'Литий',      type:'element'},
-  {id:'Sr',  sym:'Sr',  name:'Стронций',   type:'element'},
   {id:'Sb',  sym:'Sb',  name:'Сурьма',     type:'element'},
   {id:'Bi',  sym:'Bi',  name:'Висмут',     type:'element'},
+  {id:'V',   sym:'V',   name:'Ванадий',    type:'element'},
+  {id:'Zr',  sym:'Zr',  name:'Цирконий',   type:'element'},
   // Соединения
   {id:'H2O', sym:'H₂O', name:'Вода',             type:'compound'},
   {id:'CO2', sym:'CO₂', name:'Углекислый газ',    type:'compound'},
   {id:'HF',  sym:'HF',  name:'Фтористый водород', type:'compound'},
   {id:'H3PO4',sym:'H₃PO₄',name:'Фосф. кислота',  type:'compound'},
   {id:'H2S', sym:'H₂S', name:'Сероводород',       type:'compound'},
-  // Минералы
-  {id:'SiO2', sym:'SiO₂', name:'Кварц',      type:'mineral'},
-  {id:'CaCO3',sym:'CaCO₃',name:'Кальцит',    type:'mineral'},
-  {id:'FeS2', sym:'FeS₂', name:'Пирит',      type:'mineral'},
-  {id:'TiO2', sym:'TiO₂', name:'Рутил',      type:'mineral'},
-  {id:'ZnS',  sym:'ZnS',  name:'Сфалерит',   type:'mineral'},
-  {id:'BaSO4',sym:'BaSO₄',name:'Барит',      type:'mineral'},
-  {id:'NaCl', sym:'NaCl', name:'Галит',       type:'mineral'},
+  // Минералы (стартовые)
+  {id:'SiO2', sym:'SiO₂', name:'Кварц',    type:'mineral'},
+  {id:'CaCO3',sym:'CaCO₃',name:'Кальцит',  type:'mineral'},
+  {id:'FeS2', sym:'FeS₂', name:'Пирит',    type:'mineral'},
 ];
 
 const R = [
-  {i:['C'],minT:900,maxT:1500,minP:4.5,maxP:15,r:{name:'Алмаз',en:'Diamond',f:'C',ic:'💎',h:10,eq:'C → Алмаз  (P > 4.5 ГПа, T = 900–1500 °C)',ds:'Самое твёрдое природное вещество. Кристаллизуется в кубической сингонии. Образуется в мантии Земли и при метеоритных ударах.',pr:{'Твёрдость':'10 / 10 (эталон шкалы Мооса)','Цвет':'Бесцветный; жёлтый, синий, розовый, чёрный','Блеск':'Алмазный','Сингония':'Кубическая','Плотность':'3.51 г/см³','Спайность':'Совершенная по {111}','Применение':'Ювелирные украшения, режущий инструмент, абразивы','Месторождения':'Россия (Якутия), ЮАР, Ботсвана, Австралия'}}},
-  {i:['C'],minT:0,maxT:899,minP:0,maxP:4.4,r:{name:'Графит',en:'Graphite',f:'C',ic:'⬛',h:1,eq:'C → Графит  (стабильная форма при P < 4.5 ГПа)',ds:'Мягкий слоистый минерал с металлическим блеском. Слои атомов углерода слабо связаны между собой.',pr:{'Твёрдость':'1–2 / 10','Цвет':'Чёрный до стально-серого','Блеск':'Металлический','Сингония':'Гексагональная','Плотность':'2.09–2.23 г/см³','Спайность':'Совершенная базальная','Применение':'Карандаши, электроды, смазки, ядерные реакторы','Месторождения':'Шри-Ланка, Китай, Индия, Мексика, Россия'}}},
-  {i:['O','Si'],minT:300,maxT:870,minP:0.001,maxP:2.5,r:{name:'Кварц',en:'Quartz',f:'SiO₂',ic:'🔮',h:7,eq:'Si + O₂ → SiO₂  (Кварц α/β)',ds:'Один из самых распространённых минералов земной коры. Входит в состав гранитов, песчаников и многих горных пород.',pr:{'Твёрдость':'7 / 10','Цвет':'Бесцветный, белый, розовый (розовый кварц), фиолетовый (аметист), дымчатый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'2.65 г/см³','Спайность':'Отсутствует (раковистый излом)','Применение':'Оптика, кварцевые часы, стекло, ювелирные украшения','Месторождения':'Бразилия, Мадагаскар, США, Россия (Урал)'}}},
-  {i:['O','Si'],minT:300,maxT:1200,minP:2.5,maxP:10,r:{name:'Коэсит',en:'Coesite',f:'SiO₂',ic:'🪨',h:7,eq:'SiO₂ → Коэсит  (P = 2.5–10 ГПа)',ds:'Высокобарический полиморф кремнезёма. Образуется при ударном метаморфизме и в зонах субдукции земной коры.',pr:{'Твёрдость':'7.5 / 10','Цвет':'Бесцветный, белый','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'3.01 г/см³','Спайность':'Совершенная','Применение':'Научные исследования, маркер ударных кратеров','Месторождения':'Кратер Бэрринджера (США), зоны UHP-метаморфизма'}}},
-  {i:['O','Si'],minT:600,maxT:1500,minP:10,maxP:15,r:{name:'Стишовит',en:'Stishovite',f:'SiO₂',ic:'💠',h:8,eq:'SiO₂ → Стишовит  (P > 10 ГПа)',ds:'Сверхплотный полиморф кремнезёма со структурой рутила. Открыт советским учёным С. М. Стишовым в 1961 г.',pr:{'Твёрдость':'~8.5 / 10','Цвет':'Бесцветный','Блеск':'Стеклянный','Сингония':'Тетрагональная','Плотность':'4.29 г/см³','Спайность':'Хорошая','Применение':'Изучение строения мантии Земли, астрогеология','Месторождения':'Ударные кратеры, зоны ультрависокого давления'}}},
-  {i:['Fe','S'],minT:80,maxT:600,minP:0.001,maxP:1,r:{name:'Пирит',en:'Pyrite',f:'FeS₂',ic:'🟡',h:6,eq:'Fe + 2S → FeS₂  (Пирит)',ds:'«Золото дураков» — блестящий золотистый сульфид железа. Очень распространённый рудный минерал гидротермальных жил.',pr:{'Твёрдость':'6–6.5 / 10','Цвет':'Латунно-жёлтый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'5.0 г/см³','Спайность':'Несовершенная','Применение':'Производство серной кислоты, источник серы и железа','Месторождения':'Испания (Рио-Тинто), Перу, Китай, Россия (Урал)'}}},
-  {i:['Fe','O'],minT:100,maxT:500,minP:0.001,maxP:3,r:{name:'Гематит',en:'Hematite',f:'Fe₂O₃',ic:'🔴',h:6,eq:'4Fe + 3O₂ → 2Fe₂O₃  (Гематит)',ds:'Главная железная руда планеты. Красный порошок использовался как пигмент с доисторических времён. Марс красный из-за гематита.',pr:{'Твёрдость':'5.5–6.5 / 10','Цвет':'Стально-серый до чёрного; черта ярко-красная','Блеск':'Металлический до тусклого','Сингония':'Тригональная','Плотность':'5.26 г/см³','Спайность':'Отсутствует','Применение':'Железная руда, красный пигмент (красная охра), ювелирные украшения','Месторождения':'Бразилия, Австралия, Украина (Кривой Рог), Россия (Курская)'}}},
-  {i:['Fe','O'],minT:500,maxT:1200,minP:0.001,maxP:3,r:{name:'Магнетит',en:'Magnetite',f:'Fe₃O₄',ic:'⚫',h:6,eq:'3Fe + 2O₂ → Fe₃O₄  (Магнетит)',ds:'Природный магнит! Единственный широко распространённый сильномагнитный минерал. Древнейший известный людям магнит.',pr:{'Твёрдость':'5.5–6 / 10','Цвет':'Чёрный; черта чёрная','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'5.17 г/см³','Спайность':'Несовершенная','Применение':'Железная руда, компасные стрелки, ферромагнитные материалы','Месторождения':'Швеция, Россия, Австралия, США'}}},
-  {i:['Cu','S'],minT:80,maxT:500,minP:0.001,maxP:1,r:{name:'Ковеллин',en:'Covellite',f:'CuS',ic:'🔵',h:2,eq:'Cu + S → CuS  (Ковеллин)',ds:'Редкий синий сульфид меди с характерным перламутровым металлическим блеском.',pr:{'Твёрдость':'1.5–2 / 10','Цвет':'Тёмно-синий, индиговый','Блеск':'Металлический, перламутровый','Сингония':'Гексагональная','Плотность':'4.68 г/см³','Спайность':'Совершенная базальная','Применение':'Медная руда, коллекционный минерал','Месторождения':'Италия (Сардиния), США (Монтана), Германия'}}},
-  {i:['Pb','S'],minT:50,maxT:400,minP:0.001,maxP:1,r:{name:'Галенит',en:'Galena',f:'PbS',ic:'⚪',h:2,eq:'Pb + S → PbS  (Галенит)',ds:'Главная руда свинца. Кубические кристаллы с зеркальным металлическим блеском. Содержит примеси серебра.',pr:{'Твёрдость':'2.5 / 10','Цвет':'Свинцово-серый','Блеск':'Металлический (зеркальный)','Сингония':'Кубическая','Плотность':'7.6 г/см³','Спайность':'Совершенная кубическая','Применение':'Руда свинца и серебра','Месторождения':'США (Миссури), Австралия, Мексика, Польша'}}},
-  {i:['Al','O'],minT:700,maxT:1500,minP:0.3,maxP:10,r:{name:'Корунд',en:'Corundum',f:'Al₂O₃',ic:'💠',h:9,eq:'4Al + 3O₂ → 2Al₂O₃  (Корунд)',ds:'Второй по твёрдости природный минерал после алмаза. Красный корунд — рубин, синий — сапфир.',pr:{'Твёрдость':'9 / 10','Цвет':'Бесцветный; красный (рубин), синий (сапфир), жёлтый, розовый, зелёный','Блеск':'Алмазный до стеклянного','Сингония':'Тригональная','Плотность':'3.95–4.10 г/см³','Спайность':'Отсутствует','Применение':'Ювелирные украшения (рубин, сапфир), абразивы, оптика, лазеры','Месторождения':'Мьянма, Таиланд, Шри-Ланка, Кашмир, Австралия'}}},
-  {i:['Mg','O'],minT:800,maxT:1500,minP:1,maxP:15,r:{name:'Периклаз',en:'Periclase',f:'MgO',ic:'⬜',h:5,eq:'2Mg + O₂ → 2MgO  (Периклаз)',ds:'Оксид магния. Встречается в метаморфизованных доломитах.',pr:{'Твёрдость':'5.5 / 10','Цвет':'Бесцветный, белый, серый, зеленоватый','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.56 г/см³','Спайность':'Совершенная кубическая','Применение':'Огнеупорные материалы, медицина (антацид), удобрения','Месторождения':'Италия, Россия, Австрия, Швеция'}}},
-  {i:['Al','O','Si'],minT:350,maxT:640,minP:0.5,maxP:15,r:{name:'Кианит',en:'Kyanite',f:'Al₂SiO₅',ic:'🔷',h:6,eq:'Al₂O₃ + SiO₂ → Al₂SiO₅  (Кианит, высокое P)',ds:'Полиморф Al₂SiO₅ высокого давления. Твёрдость 4.5 вдоль и 6.5 поперёк кристалла.',pr:{'Твёрдость':'4.5–7 / 10 (анизотропная)','Цвет':'Синий, синевато-зелёный, белый, серый','Блеск':'Стеклянный, перламутровый','Сингония':'Триклинная','Плотность':'3.53–3.67 г/см³','Спайность':'Совершенная','Применение':'Огнеупоры, электрические изоляторы, ювелирные украшения','Месторождения':'Бразилия, Непал, США (Сев. Каролина), Россия'}}},
-  {i:['Al','O','Si'],minT:640,maxT:1500,minP:0.001,maxP:0.5,r:{name:'Силлиманит',en:'Sillimanite',f:'Al₂SiO₅',ic:'🌿',h:7,eq:'Al₂O₃ + SiO₂ → Al₂SiO₅  (Силлиманит, высокая T)',ds:'Высокотемпературный полиморф Al₂SiO₅. Образует длинные волокнистые кристаллы в метаморфических породах.',pr:{'Твёрдость':'6.5–7.5 / 10','Цвет':'Белый, серый, бурый','Блеск':'Стеклянный, шелковистый','Сингония':'Ромбическая','Плотность':'3.23–3.27 г/см³','Спайность':'Совершенная','Применение':'Огнеупоры (муллитовая керамика), ювелирные украшения','Месторождения':'Индия, США, Россия, Германия'}}},
-  {i:['Al','O','Si'],minT:350,maxT:640,minP:0.001,maxP:0.5,r:{name:'Андалузит',en:'Andalusite',f:'Al₂SiO₅',ic:'🟫',h:7,eq:'Al₂O₃ + SiO₂ → Al₂SiO₅  (Андалузит, низкое P)',ds:'Низкобарический полиморф Al₂SiO₅. Разновидность хиастолит имеет включения в форме креста.',pr:{'Твёрдость':'6.5–7.5 / 10','Цвет':'Розово-красный, белый, серый, зелёный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.13–3.21 г/см³','Спайность':'Хорошая','Применение':'Огнеупоры, ювелирные украшения','Месторождения':'Испания (Андалусия), США, Австралия, Бразилия'}}},
-  {i:['Mg','O','Si'],minT:600,maxT:1100,minP:0.1,maxP:3,r:{name:'Форстерит (Оливин)',en:'Forsterite / Olivine',f:'Mg₂SiO₄',ic:'🟢',h:7,eq:'2MgO + SiO₂ → Mg₂SiO₄  (Форстерит)',ds:'Магниевый оливин — основной минерал верхней мантии Земли. Прозрачные жёлто-зелёные кристаллы — ювелирный перидот.',pr:{'Твёрдость':'6.5–7 / 10','Цвет':'Жёлто-зелёный, оливково-зелёный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.27 г/см³','Спайность':'Плохая','Применение':'Ювелирный камень (перидот), огнеупоры','Месторождения':'Египет (о-в Зебергед), Пакистан, Мьянма, Норвегия'}}},
-  {i:['Mg','O','Si'],minT:800,maxT:1500,minP:3,maxP:15,r:{name:'Энстатит',en:'Enstatite',f:'MgSiO₃',ic:'🧠',h:5,eq:'MgO + SiO₂ → MgSiO₃  (Энстатит, высокое P)',ds:'Магниевый пироксен. Широко распространён в мантийных ксенолитах и железокаменных метеоритах.',pr:{'Твёрдость':'5–6 / 10','Цвет':'Бесцветный, серовато-белый, зеленоватый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.20–3.35 г/см³','Спайность':'Хорошая','Применение':'Изучение метеоритов, ювелирные украшения (кошачий глаз)','Месторождения':'Южная Африка, Норвегия, Антарктида'}}},
-  {i:['Ca','O','Si'],minT:700,maxT:1200,minP:0.05,maxP:2,r:{name:'Волластонит',en:'Wollastonite',f:'CaSiO₃',ic:'🤍',h:4,eq:'CaO + SiO₂ → CaSiO₃  (Волластонит)',ds:'Кальциевый пироксеноид, типичный для контактовых скарнов. Белые игольчатые кристаллы.',pr:{'Твёрдость':'4.5–5 / 10','Цвет':'Белый, серый, бледно-зелёный','Блеск':'Стеклянный, шелковистый','Сингония':'Триклинная','Плотность':'2.86–3.09 г/см³','Спайность':'Совершенная','Применение':'Огнеупоры, пластмассы, краски, керамика, цемент','Месторождения':'Индия, Китай, США (Нью-Йорк), Финляндия'}}},
-  {i:['Ca','Mg','O','Si'],minT:700,maxT:1300,minP:0.3,maxP:4,r:{name:'Диопсид',en:'Diopside',f:'CaMgSi₂O₆',ic:'💚',h:6,eq:'CaO + MgO + 2SiO₂ → CaMgSi₂O₆  (Диопсид)',ds:'Кальциево-магниевый клинопироксен. Хромдиопсид — ярко-зелёный ювелирный камень, добываемый в Якутии.',pr:{'Твёрдость':'5.5–6.5 / 10','Цвет':'Белый, зелёный, тёмно-зелёный (хромдиопсид)','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'3.22–3.38 г/см³','Спайность':'Хорошая','Применение':'Ювелирные украшения (хромдиопсид), огнеупоры, стекло','Месторождения':'Россия (Якутия), Италия, Финляндия, США'}}},
-  {i:['Fe','Mg','O','Si'],minT:700,maxT:1300,minP:0.5,maxP:4,r:{name:'Оливин (Перидот)',en:'Olivine (Peridot)',f:'(Mg,Fe)₂SiO₄',ic:'📛',h:7,eq:'(Mg,Fe)O + SiO₂ → (Mg,Fe)₂SiO₄  (Оливин)',ds:'Изоморфный ряд форстерит–фаялит. Основной минерал верхней мантии Земли.',pr:{'Твёрдость':'6.5–7 / 10','Цвет':'Жёлто-зелёный, оливковый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.27–4.39 г/см³','Спайность':'Плохая','Применение':'Ювелирные украшения (перидот), огнеупоры','Месторождения':'Египет, Норвегия, Пакистан, Гавайи (США)'}}},
-  {i:['Al','Mg','O'],minT:700,maxT:1400,minP:0.5,maxP:6,r:{name:'Шпинель',en:'Spinel',f:'MgAl₂O₄',ic:'🔴',h:8,eq:'MgO + Al₂O₃ → MgAl₂O₄  (Шпинель)',ds:'«Рубин Чёрного принца» (170 карат, корона Великобритании) — это красная шпинель! Веками путали с рубином.',pr:{'Твёрдость':'7.5–8 / 10','Цвет':'Красный, розовый, синий, зелёный, чёрный, бесцветный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.55–3.70 г/см³','Спайность':'Несовершенная','Применение':'Ювелирные украшения, огнеупоры, лазерные материалы','Месторождения':'Мьянма (Могок), Шри-Ланка, Таджикистан, Вьетнам'}}},
-  {i:['Al','Na','O','Si'],minT:600,maxT:1100,minP:0.1,maxP:2,r:{name:'Альбит',en:'Albite (Feldspar)',f:'NaAlSi₃O₈',ic:'🪨',h:6,eq:'Na₂O + Al₂O₃ + 6SiO₂ → 2NaAlSi₃O₈  (Альбит)',ds:'Натриевый полевой шпат, один из самых распространённых минералов земной коры (~12% от объёма).',pr:{'Твёрдость':'6–6.5 / 10','Цвет':'Белый, серый, бесцветный','Блеск':'Стеклянный, перламутровый','Сингония':'Триклинная','Плотность':'2.60–2.65 г/см³','Спайность':'Совершенная','Применение':'Керамика, стекло, полевошпатовый фарфор','Месторождения':'Повсеместно (Норвегия, Китай, США, Россия)'}}},
-  {i:['Al','K','O','Si'],minT:600,maxT:1100,minP:0.1,maxP:2,r:{name:'Ортоклаз',en:'Orthoclase (K-Feldspar)',f:'KAlSi₃O₈',ic:'🟤',h:6,eq:'K₂O + Al₂O₃ + 6SiO₂ → 2KAlSi₃O₈  (Ортоклаз)',ds:'Калиевый полевой шпат, главный минерал гранитов. Разновидность адуляр — лунный камень с мерцающим голубым отливом.',pr:{'Твёрдость':'6 / 10','Цвет':'Розовый, белый, кремовый, серый','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'2.55–2.63 г/см³','Спайность':'Совершенная','Применение':'Керамика, стекло, ювелирные украшения (лунный камень)','Месторождения':'Норвегия, Швеция, Германия, Мадагаскар'}}},
-  {i:['Al','H2O','O','Si'],minT:20,maxT:350,minP:0.001,maxP:0.5,r:{name:'Каолинит',en:'Kaolinite',f:'Al₂Si₂O₅(OH)₄',ic:'🤍',h:2,eq:'2Al + 2Si + O₂ + 2H₂O → Al₂Si₂O₅(OH)₄  (Каолинит)',ds:'Основной минерал белой глины и фарфора. Образуется при выветривании полевых шпатов.',pr:{'Твёрдость':'2–2.5 / 10','Цвет':'Белый','Блеск':'Тусклый, перламутровый','Сингония':'Триклинная','Плотность':'2.6 г/см³','Спайность':'Совершенная','Применение':'Фарфор, бумага, косметика, лакокрасочная промышленность','Месторождения':'Китай, Великобритания, Германия, Украина, Бразилия'}}},
-  {i:['H2O','Mg','O','Si'],minT:50,maxT:400,minP:0.05,maxP:2,r:{name:'Тальк',en:'Talc',f:'Mg₃Si₄O₁₀(OH)₂',ic:'🌿',h:1,eq:'3MgO + 4SiO₂ + H₂O → Mg₃Si₄O₁₀(OH)₂  (Тальк)',ds:'Самый мягкий минерал — эталон «1» шкалы Мооса. Жирный на ощупь. Крупнейшие месторождения в России на Урале.',pr:{'Твёрдость':'1 / 10 (эталон мягкости)','Цвет':'Белый, зеленоватый, сероватый','Блеск':'Восковой, перламутровый','Сингония':'Моноклинная','Плотность':'2.58–2.83 г/см³','Спайность':'Совершенная','Применение':'Тальковая пудра, бумага, керамика, краски, медицина','Месторождения':'Россия (Урал), Китай, США, Австрия'}}},
-  {i:['CaCO3'],minT:700,maxT:1500,minP:0.001,maxP:0.5,r:{name:'Негашёная известь',en:'Quicklime',f:'CaO',ic:'⚪',h:3,eq:'CaCO₃ → CaO + CO₂↑  (термическое разложение кальцита)',ds:'Обжиг известняка — один из древнейших химических процессов человечества.',pr:{'Твёрдость':'3.5 / 10','Цвет':'Белый','Блеск':'Тусклый','Сингония':'Кубическая','Плотность':'3.35 г/см³','Спайность':'Совершенная кубическая','Применение':'Строительство (цемент, штукатурка), металлургия, химическая промышленность','Месторождения':'Технологический продукт (из известняка)'}}},
-  {i:['CaCO3','SiO2'],minT:550,maxT:1100,minP:0.001,maxP:1.5,r:{name:'Волластонит',en:'Wollastonite (skarn)',f:'CaSiO₃',ic:'🤍',h:4,eq:'CaCO₃ + SiO₂ → CaSiO₃ + CO₂↑  (скарновая реакция)',ds:'Классическая метасоматическая реакция на контакте известняков с магматическими телами.',pr:{'Твёрдость':'4.5–5 / 10','Цвет':'Белый, серый, бледно-зелёный','Блеск':'Стеклянный, шелковистый','Сингония':'Триклинная','Плотность':'2.86–3.09 г/см³','Спайность':'Совершенная','Применение':'Огнеупоры, пластмассы, краски, керамика','Месторождения':'Индия, Китай, США (Нью-Йорк), Финляндия'}}},
-  {i:['FeS2','O'],minT:350,maxT:900,minP:0.001,maxP:1,r:{name:'Гематит + SO₂',en:'Hematite (from pyrite roasting)',f:'Fe₂O₃',ic:'🔴',h:6,eq:'4FeS₂ + 11O₂ → 2Fe₂O₃ + 8SO₂↑  (обжиг пирита)',ds:'Промышленный процесс получения серной кислоты (из SO₂) и железной руды (Fe₂O₃).',pr:{'Твёрдость':'5.5–6.5 / 10','Цвет':'Стально-серый; черта красная','Блеск':'Металлический','Сингония':'Тригональная','Плотность':'5.26 г/см³','Спайность':'Отсутствует','Применение':'Железная руда, пигмент; SO₂ → серная кислота','Месторождения':'Технологический продукт; природный: Бразилия, Австралия'}}},
-  {i:['Ca','CO2'],minT:0,maxT:600,minP:0.001,maxP:3,r:{name:'Кальцит',en:'Calcite',f:'CaCO₃',ic:'🟡',h:3,eq:'CaO + CO₂ → CaCO₃  (Кальцит)',ds:'Один из самых распространённых минералов. Главная составная часть известняка, мрамора, мела.',pr:{'Твёрдость':'3 / 10 (эталон шкалы Мооса)','Цвет':'Бесцветный, белый, жёлтый, серый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'2.71 г/см³','Спайность':'Совершенная ромбоэдрическая (3 направления)','Применение':'Строительный камень, цемент, стекло, мел','Месторождения':'Повсеместно на всех континентах'}}},
-  {i:['Al','Ca','O','Si'],minT:700,maxT:1300,minP:0.3,maxP:3,r:{name:'Анортит',en:'Anorthite',f:'CaAl₂Si₂O₈',ic:'⬜',h:6,eq:'CaO + Al₂O₃ + 2SiO₂ → CaAl₂Si₂O₈  (Анортит)',ds:'Кальциевый полевой шпат. Главный минерал лунного высокогорья. Образцы доставлены экспедициями «Аполлон».',pr:{'Твёрдость':'6–6.5 / 10','Цвет':'Белый, серый, бесцветный','Блеск':'Стеклянный','Сингония':'Триклинная','Плотность':'2.73–2.76 г/см³','Спайность':'Совершенная','Применение':'Керамика, стекло, исследование Луны','Месторождения':'Норвегия, Гренландия, Луна (!)'}}},
-
-  // ══ НОВЫЕ РЕАКЦИИ ══
-
-  // Ti + O → Рутил
-  {i:['O','Ti'],minT:300,maxT:1200,minP:0.001,maxP:8,r:{name:'Рутил',en:'Rutile',f:'TiO₂',ic:'🟠',h:6,eq:'Ti + O₂ → TiO₂  (Рутил)',ds:'Главный минерал титана. Игольчатые золотисто-красные кристаллы в кварце создают знаменитый «волосатый кварц» — рутилированный кварц.',pr:{'Твёрдость':'6–6.5 / 10','Цвет':'Красно-коричневый, жёлтый, чёрный','Блеск':'Металловидный до алмазного','Сингония':'Тетрагональная','Плотность':'4.23–4.28 г/см³','Спайность':'Совершенная','Применение':'Главная руда титана, пигмент (TiO₂ — белила), сварочные электроды, UV-защита','Месторождения':'Австралия, ЮАР, Индия, Норвегия, Украина'}}},
-
-  // Zn + S → Сфалерит
-  {i:['S','Zn'],minT:80,maxT:500,minP:0.001,maxP:1,r:{name:'Сфалерит',en:'Sphalerite',f:'ZnS',ic:'🟤',h:3,eq:'Zn + S → ZnS  (Сфалерит)',ds:'Главная руда цинка. Чистый сфалерит бесцветен, но железо окрашивает его в жёлтый, коричневый или чёрный цвет. Прозрачные кристаллы имеют дисперсию выше, чем у алмаза!',pr:{'Твёрдость':'3.5–4 / 10','Цвет':'Жёлтый, коричневый, чёрный, бесцветный','Блеск':'Смоляной до металлического','Сингония':'Кубическая','Плотность':'3.9–4.1 г/см³','Спайность':'Совершенная по {110}','Применение':'Главная руда цинка, полупроводниковые материалы','Месторождения':'Австралия, Китай, США, Мексика, Польша'}}},
-
-  // Ca + F → Флюорит
-  {i:['Ca','F'],minT:0,maxT:700,minP:0.001,maxP:2,r:{name:'Флюорит',en:'Fluorite',f:'CaF₂',ic:'💜',h:4,eq:'Ca + F₂ → CaF₂  (Флюорит)',ds:'Самый известный флуоресцирующий минерал — само слово «флуоресценция» происходит от его названия. Встречается во всех цветах радуги.',pr:{'Твёрдость':'4 / 10 (эталон шкалы Мооса)','Цвет':'Фиолетовый, зелёный, синий, жёлтый, бесцветный — все цвета','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.18 г/см³','Спайность':'Совершенная октаэдрическая','Применение':'Флюс в металлургии, оптика (линзы для УФ и ИК), хладагенты, эмаль зубов','Месторождения':'Китай, Мексика, Монголия, Россия, Германия'}}},
-
-  // Mn + O низкая T → Пиролюзит
-  {i:['Mn','O'],minT:0,maxT:350,minP:0.001,maxP:1,r:{name:'Пиролюзит',en:'Pyrolusite',f:'MnO₂',ic:'⬛',h:2,eq:'Mn + O₂ → MnO₂  (Пиролюзит)',ds:'Главная руда марганца. Использовался ещё в пещерную эпоху как чёрный пигмент в наскальных рисунках. Первый деполяризатор в гальванических элементах.',pr:{'Твёрдость':'6–6.5 / 10 (кристаллы), 1–2 (землистые агрегаты)','Цвет':'Стально-серый до чёрного; черта чёрная','Блеск':'Металлический до тусклого','Сингония':'Тетрагональная','Плотность':'4.4–5.0 г/см³','Спайность':'Совершенная','Применение':'Руда марганца, сухие батарейки, стекольная промышленность, обесцвечивание стекла','Месторождения':'ЮАР, Украина (Никополь), Австралия, Китай, Бразилия'}}},
-
-  // Mn + O высокая T → Гаусманит
-  {i:['Mn','O'],minT:350,maxT:1100,minP:0.001,maxP:1,r:{name:'Гаусманит',en:'Hausmannite',f:'Mn₃O₄',ic:'🟫',h:5,eq:'3Mn + 2O₂ → Mn₃O₄  (Гаусманит)',ds:'Шпинелеподобный оксид марганца, образующийся при более высоких температурах, чем пиролюзит. Встречается в гидротермальных жилах и контактово-метаморфических породах.',pr:{'Твёрдость':'5.5 / 10','Цвет':'Коричневато-чёрный','Блеск':'Субметаллический','Сингония':'Тетрагональная','Плотность':'4.84 г/см³','Спайность':'Совершенная','Применение':'Руда марганца, ферриты, магнитные материалы','Месторождения':'ЮАР, Германия, Швеция, Индия'}}},
-
-  // Ag + S → Акантит
-  {i:['Ag','S'],minT:30,maxT:350,minP:0.001,maxP:0.5,r:{name:'Акантит',en:'Acanthite',f:'Ag₂S',ic:'🩶',h:2,eq:'2Ag + S → Ag₂S  (Акантит)',ds:'Главная руда серебра. Образует чёрный налёт на серебряных изделиях — это именно акантит! Самородное серебро часто встречается совместно с ним.',pr:{'Твёрдость':'2–2.5 / 10','Цвет':'Чёрный, свинцово-серый','Блеск':'Металлический','Сингония':'Моноклинная','Плотность':'7.20–7.40 г/см³','Спайность':'Несовершенная','Применение':'Главная руда серебра, исторически — монеты и украшения','Месторождения':'Мексика, Перу, Норвегия, Германия, Чили'}}},
-
-  // Ca + O + P → Апатит
-  {i:['Ca','O','P'],minT:200,maxT:900,minP:0.001,maxP:2,r:{name:'Апатит',en:'Apatite',f:'Ca₅(PO₄)₃(OH)',ic:'🩵',h:5,eq:'5CaO + 3P₂O₅ + H₂O → Ca₅(PO₄)₃(OH)  (Гидроксилапатит)',ds:'Эталон твёрдости «5» по Моосу. Главный минерал зубов и костей человека — апатит буквально «строит» нас изнутри! Также крупнейшее сырьё для фосфорных удобрений.',pr:{'Твёрдость':'5 / 10 (эталон шкалы Мооса)','Цвет':'Зелёный, синий, жёлтый, бесцветный, фиолетовый','Блеск':'Стеклянный','Сингония':'Гексагональная','Плотность':'3.16–3.22 г/см³','Спайность':'Несовершенная','Применение':'Фосфорные удобрения, зубная эмаль, костные имплантаты, ювелирные украшения','Месторождения':'Россия (Хибины), Марокко, Китай, Алжир, Бразилия'}}},
-
-  // Be + Al + O + Si → Берилл
-  {i:['Al','Be','O','Si'],minT:400,maxT:900,minP:0.1,maxP:3,r:{name:'Берилл',en:'Beryl',f:'Be₃Al₂Si₆O₁₈',ic:'💚',h:7,eq:'3BeO + Al₂O₃ + 6SiO₂ → Be₃Al₂Si₆O₁₈  (Берилл)',ds:'Семья бериллов — это целая коллекция драгоценных камней: изумруд (зелёный), аквамарин (голубой), морганит (розовый), гелиодор (жёлтый). Разные цвета — разные примеси.',pr:{'Твёрдость':'7.5–8 / 10','Цвет':'Зелёный (изумруд), голубой (аквамарин), розовый (морганит), жёлтый (гелиодор), бесцветный','Блеск':'Стеклянный','Сингония':'Гексагональная','Плотность':'2.63–2.92 г/см³','Спайность':'Несовершенная','Применение':'Ювелирные украшения, источник бериллия (сплавы, ядерные реакторы)','Месторождения':'Колумбия (изумруд), Бразилия, Мадагаскар, Россия (Урал), Афганистан'}}},
-
-  // Cr + Fe + O → Хромит
-  {i:['Cr','Fe','O'],minT:500,maxT:1300,minP:0.1,maxP:4,r:{name:'Хромит',en:'Chromite',f:'FeCr₂O₄',ic:'⚫',h:5,eq:'FeO + Cr₂O₃ → FeCr₂O₄  (Хромит)',ds:'Единственная промышленная руда хрома. Образуется в ультраосновных магматических породах — перидотитах и дунитах. Основа нержавеющей стали.',pr:{'Твёрдость':'5.5 / 10','Цвет':'Чёрный до коричнево-чёрного','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'4.5–4.8 г/см³','Спайность':'Отсутствует','Применение':'Главная руда хрома, огнеупорные материалы, нержавеющая сталь, хромирование','Месторождения':'ЮАР, Казахстан, Индия, Зимбабве, Турция'}}},
-
-  // Ba + O + S → Барит
-  {i:['Ba','O','S'],minT:20,maxT:400,minP:0.001,maxP:0.5,r:{name:'Барит',en:'Barite',f:'BaSO₄',ic:'🩵',h:3,eq:'BaO + SO₃ → BaSO₄  (Барит)',ds:'Самый тяжёлый из распространённых несульфидных минералов — «тяжёлый шпат». Абсолютно непрозрачен для рентгеновских лучей.',pr:{'Твёрдость':'3–3.5 / 10','Цвет':'Бесцветный, белый, жёлтый, серый','Блеск':'Стеклянный до смоляного','Сингония':'Ромбическая','Плотность':'4.48 г/см³','Спайность':'Совершенная','Применение':'Буровые растворы (нефть и газ), медицина (рентгенозащита), белый пигмент, стекло','Месторождения':'Китай, США, Индия, Марокко, Германия'}}},
-
-  // Ni + S → Миллерит
-  {i:['Ni','S'],minT:80,maxT:400,minP:0.001,maxP:1,r:{name:'Миллерит',en:'Millerite',f:'NiS',ic:'🟡',h:3,eq:'Ni + S → NiS  (Миллерит)',ds:'Сульфид никеля с тонкими золотисто-жёлтыми волосовидными кристаллами. Один из немногих минералов никеля. Часто встречается как вторичный минерал в пентландите.',pr:{'Твёрдость':'3–3.5 / 10','Цвет':'Латунно-жёлтый','Блеск':'Металлический','Сингония':'Тригональная','Плотность':'5.37 г/см³','Спайность':'Совершенная','Применение':'Руда никеля, научные коллекции','Месторождения':'Германия, Канада, США, Великобритания'}}},
-
-  // Au — самородное (всегда золото!)
-  {i:['Au'],minT:0,maxT:1500,minP:0.001,maxP:15,r:{name:'Самородное золото',en:'Native Gold',f:'Au',ic:'🥇',h:2,eq:'Au → Самородное золото  (благородный металл, не вступает в реакции)',ds:'Единственный распространённый металл, встречающийся в природе в чистом виде. Химически инертен: не окисляется, не ржавеет, не тускнеет тысячелетиями. Именно поэтому золото использовалось как деньги.',pr:{'Твёрдость':'2.5–3 / 10','Цвет':'Золотисто-жёлтый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'15–19.3 г/см³','Спайность':'Отсутствует','Применение':'Ювелирные украшения, электроника, валютные резервы, медицина','Месторождения':'ЮАР (Витватерсранд), Австралия, Россия, Китай, США (Калифорния)'}}},
-
-  // Ca + F + O + P → Фторапатит
-  {i:['Ca','F','O','P'],minT:200,maxT:800,minP:0.001,maxP:1.5,r:{name:'Фторапатит',en:'Fluorapatite',f:'Ca₅(PO₄)₃F',ic:'🩵',h:5,eq:'5CaO + 3P₂O₅ + CaF₂ → 2Ca₅(PO₄)₃F  (Фторапатит)',ds:'Самая устойчивая разновидность апатита. Фторид делает зубную эмаль прочнее — именно поэтому фтор добавляют в зубную пасту! Крупнейшие залежи в хибинских массивах России.',pr:{'Твёрдость':'5 / 10','Цвет':'Зелёный, жёлто-зелёный, синий, бесцветный','Блеск':'Стеклянный','Сингония':'Гексагональная','Плотность':'3.18–3.22 г/см³','Спайность':'Несовершенная','Применение':'Фосфорные удобрения, зубная паста (добавка фтора), ювелирный камень','Месторождения':'Россия (Хибины), Марокко, Китай, Бразилия'}}},
-
-  // ZnS + O → Гарниерит (через Смитсонит)
-  {i:['O','ZnS'],minT:100,maxT:500,minP:0.001,maxP:1,r:{name:'Смитсонит',en:'Smithsonite',f:'ZnCO₃',ic:'🩶',h:4,eq:'ZnS + O₂ → ZnO + SO₂; ZnO + CO₂ → ZnCO₃  (Смитсонит)',ds:'Карбонат цинка — вторичный минерал, образующийся при окислении сфалерита. Назван в честь Джеймса Смитсона — основателя Смитсоновского института.',pr:{'Твёрдость':'4–4.5 / 10','Цвет':'Белый, голубой, зелёный, жёлтый, розовый','Блеск':'Стеклянный до перламутрового','Сингония':'Тригональная','Плотность':'4.4–4.5 г/см³','Спайность':'Совершенная ромбоэдрическая','Применение':'Руда цинка, ювелирные украшения','Месторождения':'Намибия, Испания, Греция, США (Нью-Мексико)'}}},
-
-  // TiO2 + Fe → Ильменит
-  {i:['Fe','TiO2'],minT:600,maxT:1200,minP:0.1,maxP:3,r:{name:'Ильменит',en:'Ilmenite',f:'FeTiO₃',ic:'🖤',h:5,eq:'FeO + TiO₂ → FeTiO₃  (Ильменит)',ds:'Назван по горе Ильменской на Урале. Главная руда титана наряду с рутилом. Образует мощные россыпные месторождения на черноморских и балтийских пляжах.',pr:{'Твёрдость':'5–6 / 10','Цвет':'Чёрный, буровато-чёрный','Блеск':'Металлический до субметаллического','Сингония':'Тригональная','Плотность':'4.68–4.76 г/см³','Спайность':'Отсутствует','Применение':'Главная руда титана, производство TiO₂ (белые краски), антикоррозийные сплавы','Месторождения':'Россия (Урал), Украина, Австралия, Норвегия, Канада'}}},
-
-  // BaSO4 + high T → разложение (нет реакции минерала)
-  // B + O → Борацит
-  {i:['B','Mg','O'],minT:300,maxT:800,minP:0.001,maxP:1,r:{name:'Борацит',en:'Boracite',f:'Mg₃B₇O₁₃Cl',ic:'🟩',h:7,eq:'3MgO + 7B₂O₃ → Mg₃B₇O₁₃Cl  (упрощённо, Борацит)',ds:'Твёрдый бориый минерал с пьезоэлектрическими свойствами. Встречается в соляных отложениях. Кристаллы имеют псевдокубическую форму.',pr:{'Твёрдость':'7–7.5 / 10','Цвет':'Бесцветный, белый, серый, зелёный','Блеск':'Стеклянный до алмазного','Сингония':'Ромбическая','Плотность':'2.91–2.97 г/см³','Спайность':'Несовершенная','Применение':'Источник бора, пьезоэлектрические приборы','Месторождения':'Германия (Люнебург), Великобритания, США'}}},
+  {i:['C'],minT:900,maxT:1500,minP:4.5,maxP:15,r:{name:'Алмаз',en:'Diamond',f:'C',ic:'💎',h:10,eq:'C → Алмаз  (P > 4.5 ГПа, T = 900–1500 °C)',ds:'Самое твёрдое природное вещество. Кристаллизуется в кубической сингонии. Образуется в мантии Земли на глубине 150–200 км.',pr:{'Твёрдость':'10/10 (эталон Мооса)','Цвет':'Бесцветный, жёлтый, синий, розовый','Блеск':'Алмазный','Сингония':'Кубическая','Плотность':'3.51 г/см³','Применение':'Ювелирные украшения, режущий инструмент','Месторождения':'Россия (Якутия), ЮАР, Ботсвана'}}},
+  {i:['C'],minT:0,maxT:899,minP:0.001,maxP:4.4,r:{name:'Графит',en:'Graphite',f:'C',ic:'⬛',h:1,eq:'C → Графит  (P < 4.5 ГПа)',ds:'Мягкий слоистый минерал. Стабильная форма углерода при обычных условиях. Слои атомов слабо связаны силами Ван-дер-Ваальса.',pr:{'Твёрдость':'1–2/10','Цвет':'Чёрный, стально-серый','Блеск':'Металлический','Сингония':'Гексагональная','Плотность':'2.09–2.23 г/см³','Применение':'Карандаши, электроды, ядерные реакторы','Месторождения':'Шри-Ланка, Китай, Россия'}}},
+  {i:['S'],minT:0,maxT:150,minP:0.001,maxP:0.5,r:{name:'Сера самородная',en:'Native Sulfur',f:'S',ic:'🟡',h:2,eq:'S → Самородная сера  (T < 150 °C)',ds:'Жёлтый минерал вулканических районов и осадочных пород. Образуется у фумарол и при биохимических процессах.',pr:{'Твёрдость':'1.5–2.5/10','Цвет':'Жёлтый, медово-жёлтый','Блеск':'Смолистый','Сингония':'Ромбическая','Плотность':'2.07 г/см³','Применение':'Серная кислота, удобрения, порох','Месторождения':'Италия (Сицилия), США, Польша, Чили'}}},
+  {i:['Cu'],minT:200,maxT:500,minP:0.001,maxP:2,r:{name:'Медь самородная',en:'Native Copper',f:'Cu',ic:'🟠',h:3,eq:'Cu → Самородная медь  (T = 200–500 °C)',ds:'Один из немногих металлов в природе в чистом виде. Образуется в зонах окисления медных месторождений.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Медно-красный','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'8.9 г/см³','Применение':'Электроника, монеты, украшения','Месторождения':'США (Мичиган), Россия (Урал), Чили'}}},
+  {i:['Au'],minT:200,maxT:600,minP:0.001,maxP:3,r:{name:'Золото самородное',en:'Native Gold',f:'Au',ic:'🥇',h:3,eq:'Au → Самородное золото  (гидротермальные жилы)',ds:'Благородный металл, один из первых известных человеку. Химически инертен, встречается только самородным.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Золотисто-жёлтый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'19.3 г/см³','Применение':'Ювелирные украшения, электроника, финансы','Месторождения':'ЮАР, Россия, Австралия, США, Китай'}}},
+  {i:['Ag'],minT:150,maxT:400,minP:0.001,maxP:2,r:{name:'Серебро самородное',en:'Native Silver',f:'Ag',ic:'🥈',h:3,eq:'Ag → Самородное серебро  (гидротермальные жилы)',ds:'Благородный металл с высочайшей электропроводностью. Образуется в гидротермальных жилах совместно с сульфидами.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Серебристо-белый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'10.5 г/см³','Применение':'Электроника, ювелирное дело, фотография','Месторождения':'Мексика, Перу, Китай, Чили, Россия'}}},
+  {i:['Hg'],minT:0,maxT:60,minP:0.001,maxP:0.3,r:{name:'Ртуть самородная',en:'Native Mercury',f:'Hg',ic:'💧',h:1,eq:'Hg → Самородная ртуть  (T < 60 °C)',ds:'Единственный жидкий металл при комнатной температуре. Встречается у киноварных месторождений.',pr:{'Твёрдость':'жидкость','Цвет':'Серебристый (жидкость)','Блеск':'Металлический','Сингония':'нет (жидкость)','Плотность':'13.6 г/см³','Применение':'Термометры, ртутные лампы (устаревшее)','Месторождения':'Испания (Альмаден), Китай, Киргизия'}}},
+  {i:['As'],minT:0,maxT:350,minP:0.001,maxP:1,r:{name:'Мышьяк самородный',en:'Native Arsenic',f:'As',ic:'🪨',h:3,eq:'As → Самородный мышьяк  (T < 350 °C)',ds:'Серо-металлический полуметалл. Встречается в гидротермальных жилах с серебром и кобальтом.',pr:{'Твёрдость':'3.5/10','Цвет':'Оловянно-белый, быстро темнеет','Блеск':'Металлический','Сингония':'Тригональная','Плотность':'5.73 г/см³','Применение':'Полупроводники, сплавы','Месторождения':'Германия, Франция, Япония'}}},
+  {i:['Bi'],minT:0,maxT:270,minP:0.001,maxP:0.5,r:{name:'Висмут самородный',en:'Native Bismuth',f:'Bi',ic:'🪩',h:2,eq:'Bi → Самородный висмут  (T < 271 °C)',ds:'Тяжёлый серебристо-белый металл с розоватым оттенком. Расширяется при затвердевании.',pr:{'Твёрдость':'2–2.5/10','Цвет':'Серебристо-белый, розоватый','Блеск':'Металлический','Сингония':'Тригональная','Плотность':'9.78 г/см³','Применение':'Фармацевтика, легкоплавкие сплавы','Месторождения':'Боливия, Перу, Мексика'}}},
+  {i:['Fe','S'],minT:80,maxT:500,minP:0.001,maxP:1,r:{name:'Пирит',en:'Pyrite',f:'FeS₂',ic:'🟡',h:6,eq:'Fe + 2S → FeS₂  (Пирит)',ds:'«Золото дураков» — самый распространённый сульфид. Кубические кристаллы с характерной штриховкой граней.',pr:{'Твёрдость':'6–6.5/10','Цвет':'Латунно-жёлтый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'5.0 г/см³','Применение':'Производство серной кислоты, руда Fe и S','Месторождения':'Испания (Рио-Тинто), Перу, Китай, Россия'}}},
+  {i:['Fe','S'],minT:400,maxT:900,minP:1,maxP:5,r:{name:'Пирротин',en:'Pyrrhotite',f:'Fe₁₋ₓS',ic:'🔶',h:4,eq:'Fe + S → Fe₁₋ₓS  (Пирротин, T = 400–900 °C)',ds:'Несульфид-стехиометрический сульфид железа с дефицитом металла. Магнитный минерал.',pr:{'Твёрдость':'3.5–4.5/10','Цвет':'Бронзово-жёлтый','Блеск':'Металлический','Сингония':'Гексагональная','Плотность':'4.6 г/см³','Применение':'Попутное извлечение Ni и Co','Месторождения':'Канада (Садбери), Россия, Финляндия'}}},
+  {i:['S','Zn'],minT:150,maxT:450,minP:0.001,maxP:3,r:{name:'Сфалерит',en:'Sphalerite',f:'ZnS',ic:'🟤',h:4,eq:'Zn + S → ZnS  (Сфалерит)',ds:'Главный рудный минерал цинка. Цвет варьирует от бесцветного до чёрного в зависимости от примеси Fe.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Жёлтый, коричневый, чёрный, бесцветный','Блеск':'Алмазный до субметаллического','Сингония':'Кубическая','Плотность':'3.9–4.1 г/см³','Применение':'Главная руда цинка','Месторождения':'Канада, Австралия, Казахстан, Россия'}}},
+  {i:['Cu','Fe','S'],minT:200,maxT:400,minP:0.001,maxP:4,r:{name:'Халькопирит',en:'Chalcopyrite',f:'CuFeS₂',ic:'🟡',h:4,eq:'Cu + Fe + 2S → CuFeS₂  (Халькопирит)',ds:'Главный рудный минерал меди. Похож на золото, но хрупкий. Самый распространённый медный минерал.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Латунно-жёлтый','Блеск':'Металлический','Сингония':'Тетрагональная','Плотность':'4.2 г/см³','Применение':'Основная руда меди','Месторождения':'Чили, Перу, США, Канада, Россия'}}},
+  {i:['Cu','Fe','S'],minT:400,maxT:700,minP:1,maxP:5,r:{name:'Борнит',en:'Bornite',f:'Cu₅FeS₄',ic:'🟣',h:3,eq:'5Cu + Fe + 4S → Cu₅FeS₄  (Борнит, T > 400 °C)',ds:'«Павлиний камень» — пурпурная побежалость после полировки. Богатая медная руда.',pr:{'Твёрдость':'3/10','Цвет':'Медно-красный → синий/пурпурный (побежалость)','Блеск':'Металлический','Сингония':'Ромбическая','Плотность':'5.1 г/см³','Применение':'Руда меди','Месторождения':'США (Монтана), Замбия, Мексика'}}},
+  {i:['Cu','S'],minT:100,maxT:400,minP:0.001,maxP:2,r:{name:'Халькозин',en:'Chalcocite',f:'Cu₂S',ic:'⬛',h:3,eq:'2Cu + S → Cu₂S  (Халькозин)',ds:'Богатый медный минерал, важная руда. Образует тёмно-серые матовые зёрна.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Тёмно-серый до чёрного','Блеск':'Металлический','Сингония':'Моноклинная','Плотность':'5.6 г/см³','Применение':'Богатая руда меди (79.9% Cu)','Месторождения':'Чили, США, Замбия'}}},
+  {i:['Cu','S'],minT:200,maxT:500,minP:0.5,maxP:3,r:{name:'Ковеллин',en:'Covellite',f:'CuS',ic:'🔵',h:2,eq:'Cu + S → CuS  (Ковеллин)',ds:'Редкий синий сульфид меди с характерным индигово-синим цветом.',pr:{'Твёрдость':'1.5–2/10','Цвет':'Индиго-синий с пурпурным отливом','Блеск':'Субметаллический','Сингония':'Гексагональная','Плотность':'4.6 г/см³','Применение':'Руда меди, коллекционный','Месторождения':'Италия (Везувий), США (Монтана)'}}},
+  {i:['Hg','S'],minT:50,maxT:400,minP:0.001,maxP:2,r:{name:'Киноварь',en:'Cinnabar',f:'HgS',ic:'🔴',h:2,eq:'Hg + S → HgS  (Киноварь)',ds:'Ярко-красный сульфид ртути. Главная руда ртути. Известен с древности как пигмент.',pr:{'Твёрдость':'2–2.5/10','Цвет':'Ярко-красный','Блеск':'Алмазный','Сингония':'Тригональная','Плотность':'8.2 г/см³','Применение':'Руда ртути, исторически пигмент','Месторождения':'Испания (Альмаден), Китай, Киргизия'}}},
+  {i:['As','S'],minT:80,maxT:300,minP:0.001,maxP:1,r:{name:'Аурипигмент',en:'Orpiment',f:'As₂S₃',ic:'🟡',h:2,eq:'2As + 3S → As₂S₃  (Аурипигмент)',ds:'Золотисто-жёлтый сульфид мышьяка. Встречается у горячих источников и гидротермальных жил.',pr:{'Твёрдость':'1.5–2/10','Цвет':'Лимонно- или золотисто-жёлтый','Блеск':'Перламутровый','Сингония':'Моноклинная','Плотность':'3.5 г/см³','Применение':'Пигмент (историческое)','Месторождения':'Иран, Перу, Китай, Румыния'}}},
+  {i:['As','S'],minT:50,maxT:250,minP:0.001,maxP:1,r:{name:'Реальгар',en:'Realgar',f:'As₄S₄',ic:'🔴',h:2,eq:'As + S → As₄S₄  (Реальгар)',ds:'Красно-оранжевый сульфид мышьяка. На свету медленно превращается в жёлтый аурипигмент.',pr:{'Твёрдость':'1.5–2/10','Цвет':'Красный, оранжево-красный','Блеск':'Алмазный','Сингония':'Моноклинная','Плотность':'3.56 г/см³','Применение':'Пигмент (историческое), фейерверки','Месторождения':'Китай, Румыния, США'}}},
+  {i:['Pb','S'],minT:100,maxT:500,minP:0.001,maxP:3,r:{name:'Галенит',en:'Galena',f:'PbS',ic:'⬜',h:3,eq:'Pb + S → PbS  (Галенит)',ds:'Главная руда свинца. Кубические кристаллы со свинцово-серым цветом и совершенной спайностью.',pr:{'Твёрдость':'2.5/10','Цвет':'Свинцово-серый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'7.6 г/см³','Применение':'Главная руда свинца, попутное Ag','Месторождения':'Австралия, Китай, США, Казахстан'}}},
+  {i:['Ag','S'],minT:100,maxT:350,minP:0.001,maxP:2,r:{name:'Аргентит',en:'Argentite',f:'Ag₂S',ic:'⬛',h:2,eq:'2Ag + S → Ag₂S  (Аргентит)',ds:'Главный сульфид серебра. Тёмно-серый, ковкий.',pr:{'Твёрдость':'2–2.5/10','Цвет':'Чёрно-серый','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'7.3 г/см³','Применение':'Богатая руда серебра','Месторождения':'Мексика, Германия, Россия, Перу'}}},
+  {i:['Ag','As','S'],minT:150,maxT:350,minP:0.001,maxP:2,r:{name:'Прустит',en:'Proustite',f:'Ag₃AsS₃',ic:'🔴',h:2,eq:'3Ag + As + 3S → Ag₃AsS₃  (Прустит)',ds:'«Светлый рубиновый серебряный блеск». Ярко-красный серебряный минерал.',pr:{'Твёрдость':'2–2.5/10','Цвет':'Алый, красный','Блеск':'Алмазный','Сингония':'Тригональная','Плотность':'5.6 г/см³','Применение':'Руда серебра, коллекционный','Месторождения':'Чили, Германия'}}},
+  {i:['Ag','S','Sb'],minT:150,maxT:350,minP:0.001,maxP:2,r:{name:'Пираргирит',en:'Pyrargyrite',f:'Ag₃SbS₃',ic:'🔴',h:3,eq:'3Ag + Sb + 3S → Ag₃SbS₃  (Пираргирит)',ds:'Тёмно-красный «рубиновый серебряный блеск». Ценная серебряная руда.',pr:{'Твёрдость':'2.5/10','Цвет':'Тёмно-красный, чёрный','Блеск':'Алмазный','Сингония':'Тригональная','Плотность':'5.8 г/см³','Применение':'Руда серебра','Месторождения':'Германия (Фрейберг), Мексика, Боливия'}}},
+  {i:['Mo','S'],minT:200,maxT:600,minP:0.001,maxP:4,r:{name:'Молибденит',en:'Molybdenite',f:'MoS₂',ic:'⬛',h:1,eq:'Mo + 2S → MoS₂  (Молибденит)',ds:'Основная руда молибдена. Похож на графит — слоистая структура, жирный на ощупь.',pr:{'Твёрдость':'1–1.5/10','Цвет':'Свинцово-серый','Блеск':'Металлический','Сингония':'Гексагональная','Плотность':'4.7 г/см³','Применение':'Руда Mo, смазочные материалы','Месторождения':'Чили, Китай, США, Мексика'}}},
+  {i:['As','Co','S'],minT:400,maxT:700,minP:0.001,maxP:5,r:{name:'Кобальтин',en:'Cobaltite',f:'CoAsS',ic:'🪨',h:6,eq:'Co + As + S → CoAsS  (Кобальтин)',ds:'Серебристо-белый минерал кобальта. Изоморфен с пиритом. Важный источник кобальта.',pr:{'Твёрдость':'5.5/10','Цвет':'Серебристо-белый','Блеск':'Металлический','Сингония':'Ромбическая','Плотность':'6.3 г/см³','Применение':'Руда кобальта, синие пигменты (история)','Месторождения':'Канада, Норвегия, Швеция'}}},
+  {i:['As','Fe','S'],minT:300,maxT:600,minP:0.001,maxP:4,r:{name:'Арсенопирит',en:'Arsenopyrite',f:'FeAsS',ic:'🪨',h:6,eq:'Fe + As + S → FeAsS  (Арсенопирит)',ds:'Наиболее распространённый арсенид. Важный минерал-спутник золота.',pr:{'Твёрдость':'5.5–6/10','Цвет':'Серебристо-белый, стальной','Блеск':'Металлический','Сингония':'Моноклинная','Плотность':'6.1 г/см³','Применение':'Попутная руда Au и As','Месторождения':'Бразилия, Австралия, Россия'}}},
+  {i:['Fe','O'],minT:200,maxT:600,minP:0.001,maxP:5,r:{name:'Гематит',en:'Hematite',f:'Fe₂O₃',ic:'🔴',h:6,eq:'2Fe + 3/2 O₂ → Fe₂O₃  (Гематит)',ds:'Главная руда железа. Даёт красную черту. Важнейший промышленный минерал.',pr:{'Твёрдость':'5.5–6.5/10','Цвет':'Стально-серый (кристаллы); красный (земл.)','Блеск':'Металлический','Сингония':'Тригональная','Плотность':'5.26 г/см³','Применение':'Железная руда, пигмент (охра)','Месторождения':'Бразилия, Австралия, Россия, ЮАР'}}},
+  {i:['Fe','O'],minT:300,maxT:700,minP:0.001,maxP:5,r:{name:'Магнетит',en:'Magnetite',f:'Fe₃O₄',ic:'⬛',h:6,eq:'3Fe + 2O₂ → Fe₃O₄  (Магнетит)',ds:'Сильный природный магнит. Один из главных рудных минералов железа. Шпинельная структура.',pr:{'Твёрдость':'5.5–6/10','Цвет':'Чёрный','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'5.18 г/см³','Применение':'Железная руда, компасы','Месторождения':'Россия, Швеция, США, Украина'}}},
+  {i:['Al','O'],minT:700,maxT:1400,minP:0.001,maxP:8,r:{name:'Корунд',en:'Corundum',f:'Al₂O₃',ic:'🪩',h:9,eq:'2Al + 3/2 O₂ → Al₂O₃  (Корунд)',ds:'Второй по твёрдости природный минерал. Прозрачные разновидности — рубин (красный) и сапфир (синий).',pr:{'Твёрдость':'9/10 (эталон Мооса)','Цвет':'Серый, бесцветный (чистый)','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'4.02 г/см³','Применение':'Абразивы, рубин/сапфир','Месторождения':'Зимбабве, Индия, Мьянма, Россия'}}},
+  {i:['Al','Cr','O'],minT:700,maxT:1400,minP:0.001,maxP:8,r:{name:'Рубин',en:'Ruby',f:'Cr:Al₂O₃',ic:'❤️',h:9,eq:'2Al + Cr + 3/2 O₂ → Cr:Al₂O₃  (Рубин)',ds:'Красная разновидность корунда с примесью хрома. Один из самых ценных драгоценных камней.',pr:{'Твёрдость':'9/10','Цвет':'Красный (от бледно-розового до тёмно-красного)','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'4.0 г/см³','Применение':'Ювелирные украшения, лазеры','Месторождения':'Мьянма (Могок), Шри-Ланка, Таиланд'}}},
+  {i:['Al','O','Ti'],minT:700,maxT:1400,minP:0.001,maxP:8,r:{name:'Сапфир',en:'Sapphire',f:'Ti:Al₂O₃',ic:'💙',h:9,eq:'2Al + Ti + 3/2 O₂ → Ti:Al₂O₃  (Сапфир)',ds:'Синяя разновидность корунда с примесью Ti и Fe.',pr:{'Твёрдость':'9/10','Цвет':'Синий (Fe+Ti); бывает жёлтый, розовый, зелёный','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'4.0 г/см³','Применение':'Ювелирные украшения, часовые стёкла','Месторождения':'Шри-Ланка, Мьянма, Камбоджа'}}},
+  {i:['O','Ti'],minT:400,maxT:1000,minP:0.001,maxP:8,r:{name:'Рутил',en:'Rutile',f:'TiO₂',ic:'🔶',h:6,eq:'Ti + 2O → TiO₂  (Рутил)',ds:'Главный рудный минерал титана. Высокотемпературная стабильная форма TiO₂.',pr:{'Твёрдость':'6–6.5/10','Цвет':'Красновато-коричневый, чёрный','Блеск':'Алмазный до металлического','Сингония':'Тетрагональная','Плотность':'4.25 г/см³','Применение':'Руда Ti, белый пигмент','Месторождения':'Австралия, ЮАР, Индия, Норвегия'}}},
+  {i:['O','Ti'],minT:0,maxT:700,minP:0.001,maxP:3,r:{name:'Анатаз',en:'Anatase',f:'TiO₂',ic:'🔷',h:6,eq:'Ti + 2O → TiO₂  (Анатаз, низкотемпературная форма)',ds:'Низкотемпературная тетрагональная форма TiO₂. При нагревании переходит в рутил.',pr:{'Твёрдость':'5.5–6/10','Цвет':'Синий, чёрный, жёлтый','Блеск':'Алмазный','Сингония':'Тетрагональная','Плотность':'3.88 г/см³','Применение':'Фотокатализ, солнечные элементы','Месторождения':'Бразилия, Норвегия, Швейцария'}}},
+  {i:['O','Sn'],minT:300,maxT:800,minP:0.001,maxP:5,r:{name:'Касситерит',en:'Cassiterite',f:'SnO₂',ic:'🟤',h:7,eq:'Sn + 2O → SnO₂  (Касситерит)',ds:'Главный рудный минерал олова. С древности известен как «оловянный камень».',pr:{'Твёрдость':'6–7/10','Цвет':'Буро-коричневый, жёлтый, чёрный','Блеск':'Алмазный до жирного','Сингония':'Тетрагональная','Плотность':'6.99 г/см³','Применение':'Главная руда олова','Месторождения':'Китай, Индонезия, Перу, Боливия'}}},
+  {i:['Cu','O'],minT:100,maxT:500,minP:0.001,maxP:3,r:{name:'Куприт',en:'Cuprite',f:'Cu₂O',ic:'🔴',h:4,eq:'2Cu + 1/2 O₂ → Cu₂O  (Куприт)',ds:'Ярко-красный оксид меди. Образуется в зоне окисления медных месторождений.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Красный, тёмно-красный','Блеск':'Алмазный','Сингония':'Кубическая','Плотность':'6.1 г/см³','Применение':'Руда меди, пигмент','Месторождения':'Австралия, Намибия, Чили, Россия'}}},
+  {i:['Cr','Fe','O'],minT:500,maxT:1000,minP:0.001,maxP:6,r:{name:'Хромит',en:'Chromite',f:'FeCr₂O₄',ic:'⬛',h:5,eq:'Fe + 2Cr + 2O₂ → FeCr₂O₄  (Хромит)',ds:'Главная руда хрома. Единственный промышленно значимый минерал хрома.',pr:{'Твёрдость':'5.5/10','Цвет':'Чёрный','Блеск':'Металлический','Сингония':'Кубическая','Плотность':'5.1 г/см³','Применение':'Руда хрома, огнеупоры','Месторождения':'ЮАР, Казахстан, Индия, Зимбабве'}}},
+  {i:['Al','Mg','O'],minT:600,maxT:1200,minP:0.001,maxP:8,r:{name:'Шпинель',en:'Spinel',f:'MgAl₂O₄',ic:'💜',h:8,eq:'Mg + 2Al + 2O₂ → MgAl₂O₄  (Шпинель)',ds:'Эталонный минерал шпинельной группы. Красная и синяя шпинель веками принималась за рубин и сапфир.',pr:{'Твёрдость':'7.5–8/10','Цвет':'Красный, синий, чёрный, бесцветный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.55 г/см³','Применение':'Ювелирные украшения, огнеупоры','Месторождения':'Мьянма, Шри-Ланка, Таджикистан'}}},
+  {i:['Ca','O','W'],minT:300,maxT:700,minP:0.001,maxP:5,r:{name:'Шеелит',en:'Scheelite',f:'CaWO₄',ic:'⬜',h:5,eq:'Ca + W + 2O₂ → CaWO₄  (Шеелит)',ds:'Главный рудный минерал вольфрама. Флуоресцирует голубым под УФ-светом.',pr:{'Твёрдость':'4.5–5/10','Цвет':'Белый, жёлтый, зеленоватый','Блеск':'Жирный до алмазного','Сингония':'Тетрагональная','Плотность':'6.1 г/см³','Применение':'Руда вольфрама','Месторождения':'Китай, Канада, Россия, Австрия'}}},
+  {i:['Mo','O','Pb'],minT:100,maxT:400,minP:0.001,maxP:2,r:{name:'Вульфенит',en:'Wulfenite',f:'PbMoO₄',ic:'🟠',h:3,eq:'Pb + Mo + 2O₂ → PbMoO₄  (Вульфенит)',ds:'Ярко-оранжевые квадратные таблички. Образуется в зонах окисления Pb-Mo месторождений.',pr:{'Твёрдость':'3/10','Цвет':'Оранжевый, жёлтый, красный','Блеск':'Алмазный','Сингония':'Тетрагональная','Плотность':'6.8 г/см³','Применение':'Коллекционный минерал, руда Mo','Месторождения':'США (Аризона), Марокко, Мексика'}}},
+  {i:['O','Si'],minT:0,maxT:575,minP:0.001,maxP:2.5,r:{name:'Кварц',en:'Quartz',f:'SiO₂',ic:'🔮',h:7,eq:'Si + O₂ → SiO₂  (α-Кварц, T < 575 °C)',ds:'Самый распространённый минерал земной коры. Разновидности: аметист, цитрин, горный хрусталь, морион.',pr:{'Твёрдость':'7/10 (эталон Мооса)','Цвет':'Бесцветный, белый, розовый, фиолетовый, дымчатый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'2.65 г/см³','Применение':'Оптика, электроника, стекло, ювелирное дело','Месторождения':'Бразилия, Мадагаскар, США, Россия (Урал)'}}},
+  {i:['O','Si'],minT:800,maxT:2000,minP:2.5,maxP:10,r:{name:'Коэсит',en:'Coesite',f:'SiO₂',ic:'🪨',h:8,eq:'SiO₂ → Коэсит  (P = 2.5–10 ГПа)',ds:'Высокобарический полиморф кремнезёма. Маркер ударного метаморфизма и зон субдукции.',pr:{'Твёрдость':'7.5/10','Цвет':'Бесцветный, белый','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'3.01 г/см³','Применение':'Маркер ударных кратеров, геотермометр','Месторождения':'Кратер Бэрринджера (США), UHP-комплексы'}}},
+  {i:['O','Si'],minT:1000,maxT:5000,minP:10,maxP:100,r:{name:'Стишовит',en:'Stishovite',f:'SiO₂',ic:'💠',h:8,eq:'SiO₂ → Стишовит  (P > 10 ГПа)',ds:'Сверхплотный полиморф кварца со структурой рутила. Открыт советским учёным С. М. Стишовым в 1961 г.',pr:{'Твёрдость':'8.5/10','Цвет':'Бесцветный','Блеск':'Стеклянный','Сингония':'Тетрагональная','Плотность':'4.29 г/см³','Применение':'Астрогеология, модели мантии','Месторождения':'Ударные кратеры, зоны ультрависокого давления'}}},
+  {i:['CO2','Ca'],minT:0,maxT:550,minP:0.001,maxP:3,r:{name:'Кальцит',en:'Calcite',f:'CaCO₃',ic:'⬜',h:3,eq:'Ca + CO₂ → CaCO₃  (Кальцит)',ds:'Самый распространённый карбонат. Основа известняка, мрамора, мела. Реагирует с HCl.',pr:{'Твёрдость':'3/10 (эталон Мооса)','Цвет':'Бесцветный, белый, жёлтый, розовый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'2.71 г/см³','Применение':'Цемент, известь, мрамор, оптика','Месторождения':'Исландия, Мексика, США, Россия'}}},
+  {i:['CO2','Ca'],minT:0,maxT:350,minP:0.5,maxP:5,r:{name:'Арагонит',en:'Aragonite',f:'CaCO₃',ic:'🌊',h:3,eq:'CaCO₃ → Арагонит  (P = 0.5–5 ГПа)',ds:'Высокобарическая форма CaCO₃. Образует раковины моллюсков и кораллы.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Бесцветный, белый, жёлтый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'2.95 г/см³','Применение':'Ювелирное дело (жемчуг)','Месторождения':'Испания (Арагон), Марокко, Чехия'}}},
+  {i:['CO2','Mg'],minT:100,maxT:500,minP:0.001,maxP:5,r:{name:'Магнезит',en:'Magnesite',f:'MgCO₃',ic:'⬜',h:4,eq:'Mg + CO₂ → MgCO₃  (Магнезит)',ds:'Карбонат магния. Образуется при метаморфизме ультраосновных пород.',pr:{'Твёрдость':'3.5–4.5/10','Цвет':'Белый, серый, жёлтый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'3.0 г/см³','Применение':'Огнеупоры, магниевые удобрения','Месторождения':'Австрия, Китай, Россия (Урал)'}}},
+  {i:['CO2','Fe'],minT:100,maxT:500,minP:0.001,maxP:5,r:{name:'Сидерит',en:'Siderite',f:'FeCO₃',ic:'🟤',h:4,eq:'Fe + CO₂ → FeCO₃  (Сидерит)',ds:'Карбонат железа. Жёлто-бурые ромбоэдрические кристаллы.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Желтовато-бурый, серый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'3.96 г/см³','Применение':'Железная руда','Месторождения':'Австрия (Эрцберг), Испания, Германия'}}},
+  {i:['CO2','Mn'],minT:100,maxT:500,minP:0.001,maxP:5,r:{name:'Родохрозит',en:'Rhodochrosite',f:'MnCO₃',ic:'🌸',h:4,eq:'Mn + CO₂ → MnCO₃  (Родохрозит)',ds:'Розовый карбонат марганца. Национальный камень Аргентины.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Розовый, малиново-красный','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'3.70 г/см³','Применение':'Ювелирный камень, руда Mn','Месторождения':'Аргентина (Капильитас), США, Румыния'}}},
+  {i:['CO2','Pb'],minT:50,maxT:300,minP:0.001,maxP:2,r:{name:'Церуссит',en:'Cerussite',f:'PbCO₃',ic:'⬜',h:3,eq:'Pb + CO₂ → PbCO₃  (Церуссит)',ds:'Карбонат свинца. Образуется при выветривании галенита. Адамантовый блеск.',pr:{'Твёрдость':'3–3.5/10','Цвет':'Бесцветный, белый, серый','Блеск':'Алмазный','Сингония':'Ромбическая','Плотность':'6.55 г/см³','Применение':'Руда свинца','Месторождения':'Намибия, Австралия, Марокко'}}},
+  {i:['CO2','Cu','H2O'],minT:50,maxT:250,minP:0.001,maxP:2,r:{name:'Малахит',en:'Malachite',f:'Cu₂(CO₃)(OH)₂',ic:'💚',h:4,eq:'2Cu + CO₂ + H₂O → Cu₂(CO₃)(OH)₂  (Малахит)',ds:'Ярко-зелёный карбонат меди. Символ Урала. Образует концентрически-зональные агрегаты.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Ярко-зелёный, изумрудный','Блеск':'Стеклянный, шёлковый','Сингония':'Моноклинная','Плотность':'4.0 г/см³','Применение':'Ювелирный и поделочный камень, пигмент','Месторождения':'Россия (Урал), Конго, Австралия, Намибия'}}},
+  {i:['CO2','Cu','H2O'],minT:50,maxT:200,minP:0.001,maxP:1,r:{name:'Азурит',en:'Azurite',f:'Cu₃(CO₃)₂(OH)₂',ic:'💙',h:4,eq:'3Cu + 2CO₂ + H₂O → Cu₃(CO₃)₂(OH)₂  (Азурит)',ds:'Ярко-синий карбонат меди. Раньше использовался как лазурный пигмент.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Ярко-синий, лазурный','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'3.77 г/см³','Применение':'Пигмент (история), коллекционный','Месторождения':'Марокко, Намибия, Австралия, США'}}},
+  {i:['CO2','Ca','Mg'],minT:100,maxT:400,minP:0.001,maxP:4,r:{name:'Доломит',en:'Dolomite',f:'CaMg(CO₃)₂',ic:'⬜',h:4,eq:'Mg + Ca + 2CO₂ → CaMg(CO₃)₂  (Доломит)',ds:'Распространённый карбонат кальция и магния. Основная порода доломитовых Альп.',pr:{'Твёрдость':'3.5–4/10','Цвет':'Белый, серый, розовый','Блеск':'Стеклянный','Сингония':'Тригональная','Плотность':'2.85 г/см³','Применение':'Строительный материал, удобрения, металлургия','Месторождения':'Австрия (Альпы), Италия, Россия'}}},
+  {i:['Cl','Na'],minT:0,maxT:300,minP:0.001,maxP:2,r:{name:'Галит',en:'Halite',f:'NaCl',ic:'🧂',h:2,eq:'Na + Cl → NaCl  (Галит / каменная соль)',ds:'Каменная соль. Кубические кристаллы с совершенной спайностью.',pr:{'Твёрдость':'2–2.5/10','Цвет':'Бесцветный, белый, розовый, синий','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'2.16 г/см³','Применение':'Пищевая соль, химическая промышленность','Месторождения':'Германия, США, Польша, Украина'}}},
+  {i:['Cl','K'],minT:0,maxT:300,minP:0.001,maxP:2,r:{name:'Сильвин',en:'Sylvite',f:'KCl',ic:'🟣',h:2,eq:'K + Cl → KCl  (Сильвин)',ds:'Хлорид калия. Образует галогенные эвапоритовые отложения вместе с галитом.',pr:{'Твёрдость':'2/10','Цвет':'Бесцветный, белый, красный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'1.99 г/см³','Применение':'Калийные удобрения','Месторождения':'Россия (Урал), Германия, Канада, Беларусь'}}},
+  {i:['Ca','F'],minT:200,maxT:600,minP:0.001,maxP:5,r:{name:'Флюорит',en:'Fluorite',f:'CaF₂',ic:'💜',h:4,eq:'Ca + F₂ → CaF₂  (Флюорит)',ds:'Красочный галогенид кальция. Бывает фиолетовым, зелёным, синим. Флуоресцирует.',pr:{'Твёрдость':'4/10 (эталон Мооса)','Цвет':'Фиолетовый, зелёный, синий, жёлтый, бесцветный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.18 г/см³','Применение':'Флюс в металлургии, оптика, ювелирное дело','Месторождения':'Китай, Мексика, Монголия, США, Россия'}}},
+  {i:['Ag','Cl'],minT:50,maxT:250,minP:0.001,maxP:1,r:{name:'Хлораргирит',en:'Chlorargyrite',f:'AgCl',ic:'🟡',h:1,eq:'Ag + Cl → AgCl  (Хлораргирит / роговое серебро)',ds:'Мягкий хлорид серебра. Образуется в зонах окисления серебряных месторождений в засушливых районах.',pr:{'Твёрдость':'1–1.5/10','Цвет':'Серый, белый, желтоватый','Блеск':'Восковой','Сингония':'Кубическая','Плотность':'5.55 г/см³','Применение':'Богатая руда серебра','Месторождения':'Чили, Перу, Мексика, Австралия'}}},
+  {i:['Al','F','Na'],minT:200,maxT:500,minP:0.001,maxP:3,r:{name:'Криолит',en:'Cryolite',f:'Na₃AlF₆',ic:'⬜',h:3,eq:'3Na + Al + 3F₂ → Na₃AlF₆  (Криолит)',ds:'«Ледяной камень» — почти прозрачный в воде. Природный флюс. Единственное крупное месторождение в Гренландии истощено.',pr:{'Твёрдость':'2.5/10','Цвет':'Снежно-белый, бесцветный','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'2.97 г/см³','Применение':'Флюс при производстве алюминия','Месторождения':'Гренландия (Ивигтут, истощено)'}}},
+  {i:['Ba','O','S'],minT:0,maxT:400,minP:0.001,maxP:3,r:{name:'Барит',en:'Barite',f:'BaSO₄',ic:'⬜',h:3,eq:'Ba + S + 2O₂ → BaSO₄  (Барит)',ds:'«Тяжёлый шпат» — нерастворимый сульфат бария. Главный минерал бария.',pr:{'Твёрдость':'3–3.5/10','Цвет':'Бесцветный, белый, синий, жёлтый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'4.48 г/см³','Применение':'Нефтебуровые растворы, рентгеновский экран','Месторождения':'Китай, Индия, США, Германия, Россия'}}},
+  {i:['Ca','O','S'],minT:50,maxT:300,minP:0.001,maxP:3,r:{name:'Ангидрит',en:'Anhydrite',f:'CaSO₄',ic:'⬜',h:3,eq:'Ca + S + 2O₂ → CaSO₄  (Ангидрит)',ds:'Безводный сульфат кальция. При гидратации превращается в гипс с увеличением объёма.',pr:{'Твёрдость':'3–3.5/10','Цвет':'Белый, сиреневый, серый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'2.98 г/см³','Применение':'Удобрения, цемент','Месторождения':'Германия, Австрия, Польша, Иран'}}},
+  {i:['Ca','H2O','O','S'],minT:0,maxT:120,minP:0.001,maxP:1,r:{name:'Гипс',en:'Gypsum',f:'CaSO₄·2H₂O',ic:'⬜',h:2,eq:'Ca + S + 2O₂ + 2H₂O → CaSO₄·2H₂O  (Гипс)',ds:'Водный сульфат кальция. Используется в строительстве с древности.',pr:{'Твёрдость':'2/10 (эталон Мооса)','Цвет':'Бесцветный, белый','Блеск':'Шелковистый, стеклянный','Сингония':'Моноклинная','Плотность':'2.32 г/см³','Применение':'Строительство, медицина, искусство','Месторождения':'США, Иран, Канада, Франция, Россия'}}},
+  {i:['O','Pb','S'],minT:50,maxT:300,minP:0.001,maxP:2,r:{name:'Англезит',en:'Anglesite',f:'PbSO₄',ic:'⬜',h:3,eq:'Pb + S + 2O₂ → PbSO₄  (Англезит)',ds:'Сульфат свинца. Образуется при окислении галенита.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Бесцветный, белый, серый','Блеск':'Алмазный','Сингония':'Ромбическая','Плотность':'6.38 г/см³','Применение':'Руда свинца','Месторождения':'Великобритания, Тунис, Австралия'}}},
+  {i:['Ca','F','H3PO4'],minT:200,maxT:700,minP:0.001,maxP:5,r:{name:'Фторапатит',en:'Fluorapatite',f:'Ca₅(PO₄)₃F',ic:'🟢',h:5,eq:'5Ca + 3(H₃PO₄) + F → Ca₅(PO₄)₃F  (Фторапатит)',ds:'Самый распространённый фосфатный минерал. Основа зубной эмали и костей. Главный источник фосфора.',pr:{'Твёрдость':'5/10 (эталон Мооса)','Цвет':'Зелёный, голубой, жёлтый, бесцветный','Блеск':'Стеклянный','Сингония':'Гексагональная','Плотность':'3.18 г/см³','Применение':'Удобрения, фосфорная кислота, ювелирное дело','Месторождения':'Россия (Хибины), Марокко, Китай, США'}}},
+  {i:['Cr','O','Pb'],minT:50,maxT:300,minP:0.001,maxP:2,r:{name:'Крокоит',en:'Crocoite',f:'PbCrO₄',ic:'🔴',h:3,eq:'Pb + Cr + 2O₂ → PbCrO₄  (Крокоит)',ds:'Яркий оранжево-красный хромат свинца. Один из самых красивых коллекционных минералов.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Оранжевый, красный','Блеск':'Алмазный','Сингония':'Моноклинная','Плотность':'6.0 г/см³','Применение':'Коллекционный минерал, исторически пигмент','Месторождения':'Австралия (Тасмания), Бразилия, Россия (Урал)'}}},
+  {i:['Cl','Pb','V'],minT:50,maxT:300,minP:0.001,maxP:2,r:{name:'Ванадинит',en:'Vanadinite',f:'Pb₅(VO₄)₃Cl',ic:'🔴',h:3,eq:'5Pb + V + Cl → Pb₅(VO₄)₃Cl  (Ванадинит)',ds:'Ярко-красный ванадат свинца. Структурный аналог апатита. Источник ванадия.',pr:{'Твёрдость':'2.5–3/10','Цвет':'Красный, оранжевый, жёлтый','Блеск':'Смолистый','Сингония':'Гексагональная','Плотность':'6.8 г/см³','Применение':'Руда ванадия, коллекционный','Месторождения':'Марокко, Аризона (США), Замбия'}}},
+  {i:['Mg','O','Si'],minT:800,maxT:1500,minP:0.001,maxP:10,r:{name:'Форстерит',en:'Forsterite',f:'Mg₂SiO₄',ic:'🟢',h:7,eq:'2Mg + Si + 2O₂ → Mg₂SiO₄  (Форстерит)',ds:'Магниевый конец серии оливина. Главный минерал верхней мантии. Ювелирная разновидность — перидот.',pr:{'Твёрдость':'6.5–7/10','Цвет':'Оливково-зелёный, жёлтый, бесцветный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.22 г/см³','Применение':'Ювелирный камень (перидот), огнеупоры','Месторождения':'Египет (о. Зебергет), Пакистан, Китай'}}},
+  {i:['Fe','O','Si'],minT:700,maxT:1200,minP:0.001,maxP:8,r:{name:'Фаялит',en:'Fayalite',f:'Fe₂SiO₄',ic:'🟤',h:7,eq:'2Fe + Si + 2O₂ → Fe₂SiO₄  (Фаялит)',ds:'Железный конец серии оливина. Встречается в железистых гранитах и лунных породах.',pr:{'Твёрдость':'6.5–7/10','Цвет':'Тёмно-зелёный, бурый, чёрный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'4.39 г/см³','Применение':'Абразив, исследования мантии','Месторождения':'Германия, США, Гренландия'}}},
+  {i:['Ca','O','Si'],minT:600,maxT:1100,minP:0.001,maxP:7,r:{name:'Волластонит',en:'Wollastonite',f:'CaSiO₃',ic:'⬜',h:5,eq:'Ca + Si + 3/2 O₂ → CaSiO₃  (Волластонит)',ds:'Кальциевый пироксеноид. Образуется при контактном метаморфизме. Белые игольчатые кристаллы.',pr:{'Твёрдость':'4.5–5/10','Цвет':'Белый, серый, бесцветный','Блеск':'Стеклянный','Сингония':'Триклинная','Плотность':'2.92 г/см³','Применение':'Керамика, огнеупоры','Месторождения':'США, Индия, Финляндия, Китай'}}},
+  {i:['Ca','Mg','O','Si'],minT:700,maxT:1200,minP:0.001,maxP:8,r:{name:'Диопсид',en:'Diopside',f:'CaMgSi₂O₆',ic:'🟢',h:6,eq:'Ca + Mg + 2Si + 3O₂ → CaMgSi₂O₆  (Диопсид)',ds:'Кальциево-магниевый клинопироксен. Ювелирная разновидность хромдиопсид — ярко-зелёный.',pr:{'Твёрдость':'5.5–6.5/10','Цвет':'Белый, серый, зелёный, чёрный','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'3.30 г/см³','Применение':'Керамика, ювелирный камень (хромдиопсид)','Месторождения':'Россия (Якутия), Финляндия, Индия'}}},
+  {i:['Al','O','Si'],minT:500,maxT:700,minP:1,maxP:8,r:{name:'Кианит',en:'Kyanite',f:'Al₂SiO₅',ic:'💙',h:5,eq:'2Al + Si + 5/2 O₂ → Al₂SiO₅  (Кианит, P = 1–8 ГПа)',ds:'Синий алюмосиликат высокого давления. Характерна анизотропия твёрдости: 5 || и 7 ⊥ к спайности.',pr:{'Твёрдость':'5–7/10 (анизотропна!)','Цвет':'Синий, голубой, зеленоватый','Блеск':'Стеклянный','Сингония':'Триклинная','Плотность':'3.6 г/см³','Применение':'Огнеупоры, ювелирный камень','Месторождения':'США, Бразилия, Индия, Россия'}}},
+  {i:['Al','O','Si'],minT:700,maxT:1100,minP:0.001,maxP:4,r:{name:'Силлиманит',en:'Sillimanite',f:'Al₂SiO₅',ic:'⬜',h:7,eq:'2Al + Si + 5/2 O₂ → Al₂SiO₅  (Силлиманит, T = 700–1100 °C)',ds:'Высокотемпературный полиморф Al₂SiO₅. Волокнистые кристаллы (файбролит).',pr:{'Твёрдость':'6.5–7.5/10','Цвет':'Белый, серый, бесцветный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.24 г/см³','Применение':'Огнеупоры','Месторождения':'США, Индия, Германия'}}},
+  {i:['Al','O','Si'],minT:400,maxT:700,minP:0.001,maxP:3,r:{name:'Андалузит',en:'Andalusite',f:'Al₂SiO₅',ic:'🟤',h:7,eq:'2Al + Si + 5/2 O₂ → Al₂SiO₅  (Андалузит, низкоP)',ds:'Низкобарический полиморф Al₂SiO₅. Разновидность хиастолит — с крестом углистого вещества.',pr:{'Твёрдость':'6.5–7.5/10','Цвет':'Серовато-розовый, красноватый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.17 г/см³','Применение':'Огнеупоры, ювелирный камень','Месторождения':'Испания (Андалузия), Австралия, Бразилия'}}},
+  {i:['Al','Fe','O','Si'],minT:500,maxT:900,minP:0.5,maxP:8,r:{name:'Альмандин',en:'Almandine',f:'Fe₃Al₂Si₃O₁₂',ic:'❤️',h:7,eq:'3Fe + 2Al + 3Si + 6O₂ → Fe₃Al₂Si₃O₁₂  (Альмандин)',ds:'Красный железо-алюминиевый гранат. Самый распространённый и узнаваемый гранат.',pr:{'Твёрдость':'7–7.5/10','Цвет':'Красный, тёмно-красный, буровато-красный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'4.32 г/см³','Применение':'Ювелирный камень, абразив','Месторождения':'Индия, Бразилия, Шри-Ланка, США, Россия'}}},
+  {i:['Al','Mg','O','Si'],minT:700,maxT:1200,minP:2,maxP:10,r:{name:'Пироп',en:'Pyrope',f:'Mg₃Al₂Si₃O₁₂',ic:'❤️',h:7,eq:'3Mg + 2Al + 3Si + 6O₂ → Mg₃Al₂Si₃O₁₂  (Пироп)',ds:'Магниево-алюминиевый гранат. «Богемский гранат». Образуется в мантии и кимберлитах.',pr:{'Твёрдость':'7–7.5/10','Цвет':'Тёмно-красный, рубиново-красный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.58 г/см³','Применение':'Ювелирный камень','Месторождения':'Чехия (Богемия), ЮАР, США, Россия'}}},
+  {i:['Al','Ca','O','Si'],minT:600,maxT:1000,minP:0.5,maxP:7,r:{name:'Гроссуляр',en:'Grossular',f:'Ca₃Al₂Si₃O₁₂',ic:'🟢',h:7,eq:'3Ca + 2Al + 3Si + 6O₂ → Ca₃Al₂Si₃O₁₂  (Гроссуляр)',ds:'Кальциево-алюминиевый гранат. Разновидности: гессонит (бурый), цаворит (зелёный).',pr:{'Твёрдость':'6.5–7.5/10','Цвет':'Зелёный, жёлтый, бурый, бесцветный','Блеск':'Стеклянный','Сингония':'Кубическая','Плотность':'3.59 г/см³','Применение':'Ювелирный камень','Месторождения':'Кения, Танзания, Шри-Ланка, Россия'}}},
+  {i:['Al','Be','O','Si'],minT:400,maxT:700,minP:0.001,maxP:5,r:{name:'Берилл',en:'Beryl',f:'Be₃Al₂Si₆O₁₈',ic:'💚',h:8,eq:'3Be + 2Al + 6Si + 9O₂ → Be₃Al₂Si₆O₁₈  (Берилл)',ds:'Бериллосиликат алюминия. Разновидности: изумруд (Cr), аквамарин (голубой), морганит (розовый).',pr:{'Твёрдость':'7.5–8/10','Цвет':'Зелёный (изумруд), голубой (аквамарин), розовый','Блеск':'Стеклянный','Сингония':'Гексагональная','Плотность':'2.72 г/см³','Применение':'Ювелирный камень, руда бериллия','Месторождения':'Колумбия (изумруд), Бразилия, Россия (Урал)'}}},
+  {i:['Al','Na','O','Si'],minT:400,maxT:900,minP:0.001,maxP:8,r:{name:'Альбит',en:'Albite',f:'NaAlSi₃O₈',ic:'⬜',h:6,eq:'Na + Al + 3Si + 4O₂ → NaAlSi₃O₈  (Альбит)',ds:'Натриевый полевой шпат. Конечный член ряда плагиоклазов. Основа магматических пород.',pr:{'Твёрдость':'6–6.5/10','Цвет':'Белый, серый, зеленоватый','Блеск':'Стеклянный','Сингония':'Триклинная','Плотность':'2.62 г/см³','Применение':'Керамика, стекло','Месторождения':'Повсеместно в гранитах и гнейсах'}}},
+  {i:['Al','K','O','Si'],minT:500,maxT:900,minP:0.001,maxP:8,r:{name:'Ортоклаз',en:'Orthoclase',f:'KAlSi₃O₈',ic:'🟡',h:6,eq:'K + Al + 3Si + 4O₂ → KAlSi₃O₈  (Ортоклаз)',ds:'Калиевый полевой шпат. Основа гранита. Разновидность адуляр — лунный камень.',pr:{'Твёрдость':'6/10 (эталон Мооса)','Цвет':'Белый, кремовый, розовый, серый','Блеск':'Стеклянный','Сингония':'Моноклинная','Плотность':'2.56 г/см³','Применение':'Керамика, стекло, лунный камень','Месторождения':'Германия, Шри-Ланка, Индия, Бразилия'}}},
+  {i:['H2O','Mg','O','Si'],minT:200,maxT:500,minP:0.001,maxP:4,r:{name:'Тальк',en:'Talc',f:'Mg₃Si₄O₁₀(OH)₂',ic:'⬜',h:1,eq:'3Mg + 4Si + H₂O + 5O₂ → Mg₃Si₄O₁₀(OH)₂  (Тальк)',ds:'Самый мягкий минерал (эталон 1 по Моосу). Жирный на ощупь.',pr:{'Твёрдость':'1/10 (эталон Мооса)','Цвет':'Белый, зеленовато-серый','Блеск':'Перламутровый','Сингония':'Моноклинная','Плотность':'2.58–2.83 г/см³','Применение':'Тальк-порошок, краски, бумага, огнеупоры','Месторождения':'Китай, Индия, США, Бразилия, Финляндия'}}},
+  {i:['Al','H2O','K','O','Si'],minT:350,maxT:650,minP:0.001,maxP:7,r:{name:'Мусковит',en:'Muscovite',f:'KAl₂(AlSi₃O₁₀)(OH)₂',ic:'⬜',h:3,eq:'K + 3Al + 3Si + H₂O + 5O₂ → Мусковит',ds:'Белая слюда. Тончайшие листочки прозрачны. Использовалась в России вместо стекла.',pr:{'Твёрдость':'2–3/10','Цвет':'Бесцветный, серебристый, золотистый','Блеск':'Перламутровый','Сингония':'Моноклинная','Плотность':'2.83 г/см³','Применение':'Электроизоляция, конденсаторы, косметика','Месторождения':'Индия, США, Бразилия, Россия'}}},
+  {i:['O','Si','Zr'],minT:600,maxT:1100,minP:0.001,maxP:7,r:{name:'Циркон',en:'Zircon',f:'ZrSiO₄',ic:'💎',h:8,eq:'Zr + Si + 2O₂ → ZrSiO₄  (Циркон)',ds:'Один из старейших минералов на Земле (4.4 млрд лет). Ювелирная разновидность — гиацинт.',pr:{'Твёрдость':'7.5/10','Цвет':'Бесцветный, красный, жёлтый, синий, коричневый','Блеск':'Алмазный','Сингония':'Тетрагональная','Плотность':'4.69 г/см³','Применение':'Ювелирный камень, U-Pb геохронология','Месторождения':'Австралия, ЮАР, Индия, Норвегия'}}},
+  {i:['Mn','O','Si'],minT:500,maxT:900,minP:0.001,maxP:6,r:{name:'Родонит',en:'Rhodonite',f:'MnSiO₃',ic:'🌸',h:6,eq:'Mn + Si + 3/2 O₂ → MnSiO₃  (Родонит)',ds:'Розовый силикат марганца. Национальный камень России. Характерны чёрные прожилки MnO.',pr:{'Твёрдость':'5.5–6.5/10','Цвет':'Розовый, малиновый с чёрными жилками','Блеск':'Стеклянный','Сингония':'Триклинная','Плотность':'3.60 г/см³','Применение':'Ювелирный и поделочный камень','Месторождения':'Россия (Урал), Австралия, Швеция, США'}}},
+  {i:['C'],minT:1000,maxT:5000,minP:15,maxP:60,r:{name:'Лонсдейлит',en:'Lonsdaleite',f:'C (гекс)',ic:'💜',h:10,eq:'C → Лонсдейлит  (P = 15–60 ГПа, ударный метаморфизм)',ds:'Гексагональный алмаз. Образуется при гиперскоростных ударах астероидов. Теоретически твёрже обычного алмаза.',pr:{'Твёрдость':'~10+/10 (теоретически)','Цвет':'Бесцветный','Блеск':'Алмазный','Сингония':'Гексагональная','Плотность':'3.51 г/см³','Применение':'Сверхтвёрдые покрытия (в исследованиях)','Месторождения':'Метеориты: Каньон Дьябло, Попигай (Сибирь)'},syn:true}},
+  {i:['C','Si'],minT:1500,maxT:5000,minP:0.001,maxP:10,r:{name:'Карборунд (SiC)',en:'Silicon Carbide',f:'SiC',ic:'✨',h:9,eq:'Si + C → SiC  (Карборунд, T > 1500 °C)',ds:'Карбид кремния. Природный минерал муасанит — редкость. Промышленно синтезируется с 1893 г.',pr:{'Твёрдость':'9–9.5/10','Цвет':'Бесцветный, зелёный, чёрный','Блеск':'Алмазный','Сингония':'Кубическая/гексагональная','Плотность':'3.21 г/см³','Применение':'Абразивы, огнеупоры, полупроводники, светодиоды','Месторождения':'Только синтетический; природный — в метеоритах'},syn:true}},
+  {i:['Mg','O','Si'],minT:1500,maxT:5000,minP:24,maxP:150,r:{name:'Бриджманит',en:'Bridgmanite',f:'MgSiO₃',ic:'🔵',h:7,eq:'Mg + Si + 3/2 O₂ → MgSiO₃  (Бриджманит, P > 24 ГПа)',ds:'Самый распространённый минерал Земли по объёму! Открыт в 2014 г. Составляет ~38% объёма Земли (нижняя мантия).',pr:{'Твёрдость':'~7/10','Цвет':'Бесцветный','Блеск':'Стеклянный','Сингония':'Ромбическая (перовскит)','Плотность':'4.10 г/см³','Применение':'Модели строения мантии Земли','Месторождения':'Метеорит Чинга (Сибирь); нижняя мантия 660–2890 км'},syn:true}},
+  {i:['Mg','O','Si'],minT:1000,maxT:2500,minP:14,maxP:22,r:{name:'Вадслеит',en:'Wadsleyite',f:'β-Mg₂SiO₄',ic:'🔷',h:7,eq:'2Mg + Si + 2O₂ → β-Mg₂SiO₄  (Вадслеит, P = 14–22 ГПа)',ds:'Высокобарическая форма оливина. Составляет переходную зону мантии на глубине 410–520 км. Может хранить воду.',pr:{'Твёрдость':'7/10','Цвет':'Бесцветный, желтоватый','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.47 г/см³','Применение':'Модели мантии, изучение глубинной воды','Месторождения':'Переходная зона мантии 410–520 км'},syn:true}},
+  {i:['Mg','O','Si'],minT:1000,maxT:2500,minP:18,maxP:28,r:{name:'Рингвудит',en:'Ringwoodite',f:'γ-Mg₂SiO₄',ic:'🟣',h:7,eq:'2Mg + Si + 2O₂ → γ-Mg₂SiO₄  (Рингвудит, P = 18–28 ГПа)',ds:'Шпинелевая форма оливина. Переходная зона 520–660 км. Обнаружен в алмазном включении в 2014 г.',pr:{'Твёрдость':'7.5/10','Цвет':'Голубой, синий','Блеск':'Стеклянный','Сингония':'Кубическая (шпинель)','Плотность':'3.9 г/см³','Применение':'Модели переходной зоны мантии, хранение воды','Месторождения':'Найден в алмазном включении (Бразилия, 2014)'},syn:true}},
+  {i:['O','Si'],minT:2000,maxT:8000,minP:100,maxP:150,r:{name:'Сейфертит',en:'Seifertite',f:'SiO₂ (α-PbO₂)',ic:'💎',h:10,eq:'SiO₂ → Сейфертит  (P > 100 ГПа, нижняя мантия)',ds:'Сверхплотная форма SiO₂. Образуется только в нижней мантии и при гиперзвуковых ударах. Открыт в 2008 г.',pr:{'Твёрдость':'~10/10','Цвет':'Бесцветный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'~4.9 г/см³','Применение':'Изучение строения нижней мантии','Месторождения':'Ударные кратеры при P > 100 ГПа'},syn:true}},
+  {i:['Fe'],minT:0,maxT:5000,minP:130,maxP:150,r:{name:'ε-Железо (ядро Земли)',en:'Epsilon Iron',f:'Fe (ε-ГПУ)',ic:'⚙️',h:5,eq:'Fe → ε-Fe  (P > 130 ГПа, T = 0–5000 °C)',ds:'Гексагональная (ГПУ) фаза железа. Составляет твёрдое внутреннее ядро Земли при P > 330 ГПа и T > 5000 °C.',pr:{'Твёрдость':'5/10','Цвет':'Серебристый металл','Блеск':'Металлический','Сингония':'Гексагональная (ГПУ)','Плотность':'~13 г/см³','Применение':'Модели ядра Земли','Месторождения':'Внутреннее ядро Земли (> 5100 км глубины)'},syn:true}},
+  {i:['C','Fe'],minT:1200,maxT:3000,minP:0.001,maxP:5,r:{name:'Когенит (цементит)',en:'Cohenite',f:'Fe₃C',ic:'⚙️',h:6,eq:'3Fe + C → Fe₃C  (Когенит, T > 1200 °C)',ds:'Карбид железа. Встречается в железных метеоритах. Основная составляющая чугуна в промышленности.',pr:{'Твёрдость':'5.5–6/10','Цвет':'Белый, стальной','Блеск':'Металлический','Сингония':'Ромбическая','Плотность':'7.66 г/см³','Применение':'Чугун, сталь, абразивы','Месторождения':'Железные метеориты; синтетический в металлургии'},syn:true}},
+  {i:['Fe','Ni'],minT:0,maxT:600,minP:0.001,maxP:2,r:{name:'Камасит',en:'Kamacite',f:'Fe₀.₉Ni₀.₁',ic:'⚙️',h:4,eq:'Fe + Ni → Fe₀.₉Ni₀.₁  (Камасит, метеоритное железо)',ds:'Низконикелистый железо-никелевый сплав из метеоритов. Образует видманштеттеновы узоры с тэнитом.',pr:{'Твёрдость':'4/10','Цвет':'Серебристо-серый','Блеск':'Металлический','Сингония':'Кубическая (ОЦК)','Плотность':'7.9 г/см³','Применение':'Изучение космических тел','Месторождения':'Железные метеориты (Сихотэ-Алинь, Гоба и др.)'},syn:true}},
+  {i:['C','W'],minT:1500,maxT:4000,minP:0.001,maxP:8,r:{name:'Карбид вольфрама',en:'Tungsten Carbide',f:'WC',ic:'⚙️',h:9,eq:'W + C → WC  (Карбид вольфрама, T > 1500 °C)',ds:'Сверхтвёрдый карбид вольфрама. В природе не встречается. Промышленно синтезируется для режущего инструмента.',pr:{'Твёрдость':'9–9.5/10','Цвет':'Серый, металлический','Блеск':'Металлический','Сингония':'Гексагональная','Плотность':'15.6 г/см³','Применение':'Режущий инструмент, свёрла, броня','Месторождения':'Только синтетический'},syn:true}},
+  {i:['O','Zr'],minT:1500,maxT:5000,minP:0.001,maxP:5,r:{name:'Кубический цирконий',en:'Cubic Zirconia',f:'ZrO₂ (куб)',ic:'💎',h:8,eq:'Zr + O₂ → ZrO₂  (кубическая фаза, T > 1500 °C)',ds:'Кубическая форма ZrO₂, стабильная только при высоких T. В природе не существует. Используется как имитация алмаза.',pr:{'Твёрдость':'8–8.5/10','Цвет':'Бесцветный (имитация алмаза); с примесями — любой','Блеск':'Алмазный','Сингония':'Кубическая','Плотность':'5.68 г/см³','Применение':'Имитация алмаза, огнеупоры, твёрдые покрытия','Месторождения':'Только синтетический'},syn:true}},
+  {i:['Al','Be','O'],minT:1200,maxT:4000,minP:0.001,maxP:5,r:{name:'Хризоберилл (синт.)',en:'Synthetic Chrysoberyl',f:'BeAl₂O₄',ic:'💛',h:8,eq:'Be + 2Al + 2O₂ → BeAl₂O₄  (высокоT синтез)',ds:'Оксид бериллия-алюминия. Александрит (с Cr) меняет цвет: зелёный при дневном, красный при лампе накаливания.',pr:{'Твёрдость':'8.5/10','Цвет':'Жёлтый, зелёный; александрит: зелёный→красный','Блеск':'Стеклянный','Сингония':'Ромбическая','Плотность':'3.75 г/см³','Применение':'Ювелирный камень, лазерный кристалл (Cr:BeAl₂O₄)','Месторождения':'Природный: Шри-Ланка, Бразилия; синт. в лаборатории'},syn:true}}
 ];
 
 let selected = [];
@@ -383,16 +403,14 @@ function startGame() {
   s.classList.add('hidden');
   setTimeout(() => s.remove(), 800);
 }
-
-// Автозапуск через 1 секунду
 setTimeout(startGame, 1000);
 
 function init() {
-  renderGrid('gridElements',  INGREDIENTS.filter(i=>i.type==='element'));
-  renderGrid('gridCompounds', INGREDIENTS.filter(i=>i.type==='compound'));
-  renderGrid('gridMinerals',  INGREDIENTS.filter(i=>i.type==='mineral'));
-  document.getElementById('tempSlider').addEventListener('input', onSlider);
-  document.getElementById('pressSlider').addEventListener('input', onSlider);
+  renderGrid('gEl',  INGREDIENTS.filter(i=>i.type==='element'));
+  renderGrid('gCo',  INGREDIENTS.filter(i=>i.type==='compound'));
+  renderGrid('gMi',  INGREDIENTS.filter(i=>i.type==='mineral'));
+  document.getElementById('ts').addEventListener('input', onSlider);
+  document.getElementById('ps').addEventListener('input', onSlider);
   onSlider();
 }
 
@@ -401,7 +419,7 @@ function renderGrid(id, items) {
   el.innerHTML = '';
   items.forEach(item => {
     const d = document.createElement('div');
-    d.className = 'ingredient-card type-' + item.type;
+    d.className = 'ic t' + item.type[0];
     d.dataset.id = item.id;
     d.innerHTML = '<div class="sym">' + item.sym + '</div><div class="nm">' + item.name + '</div>';
     d.addEventListener('click', () => toggle(item.id));
@@ -416,13 +434,13 @@ function toggle(id) {
   } else {
     if (selected.length >= MAX) {
       const removed = selected.shift();
-      const el = document.querySelector('.ingredient-card[data-id="' + removed + '"]');
-      if (el) el.classList.remove('selected');
+      const el = document.querySelector('.ic[data-id="' + removed + '"]');
+      if (el) el.classList.remove('sel');
     }
     selected.push(id);
   }
-  const el = document.querySelector('.ingredient-card[data-id="' + id + '"]');
-  if (el) el.classList.toggle('selected', selected.includes(id));
+  const el = document.querySelector('.ic[data-id="' + id + '"]');
+  if (el) el.classList.toggle('sel', selected.includes(id));
   updateChamber();
 }
 
@@ -430,22 +448,22 @@ function removeSlot(id) {
   const idx = selected.indexOf(id);
   if (idx >= 0) {
     selected.splice(idx, 1);
-    const el = document.querySelector('.ingredient-card[data-id="' + id + '"]');
-    if (el) el.classList.remove('selected');
+    const el = document.querySelector('.ic[data-id="' + id + '"]');
+    if (el) el.classList.remove('sel');
     updateChamber();
   }
 }
 
 function updateChamber() {
-  const slots = document.getElementById('chamberSlots');
-  const btn   = document.getElementById('reactBtn');
+  const slots = document.getElementById('cs');
+  const btn = document.getElementById('rb');
   if (selected.length === 0) {
-    slots.innerHTML = '<div class="empty-hint">Выберите<br>реагенты</div>';
+    slots.innerHTML = '<div class="eh">Выберите<br>реагенты</div>';
     btn.disabled = true;
   } else {
     slots.innerHTML = selected.map(id => {
       const item = INGREDIENTS.find(i => i.id === id);
-      return '<div class="slot-chip">' + item.sym + '<button class="x" onclick="removeSlot(\'' + id + '\')">✕</button></div>';
+      return '<div class="ch">' + item.sym + '<button class="cx" onclick="removeSlot(\'' + id + '\')">✕</button></div>';
     }).join('');
     btn.disabled = false;
   }
@@ -453,113 +471,114 @@ function updateChamber() {
 }
 
 function onSlider() {
-  const temp  = parseInt(document.getElementById('tempSlider').value);
-  const pRaw  = parseInt(document.getElementById('pressSlider').value);
+  const temp = parseInt(document.getElementById('ts').value);
+  const pRaw = parseInt(document.getElementById('ps').value);
   const press = rawToGPa(pRaw);
-  document.getElementById('tempLabel').textContent  = temp + ' °C';
-  document.getElementById('pressLabel').textContent = formatPress(press);
+  document.getElementById('tl').textContent = temp + ' °C';
+  document.getElementById('pl').textContent = formatPress(press);
   updateGlow();
 }
 
-function rawToGPa(raw) { return Math.pow(10, raw / 200 * Math.log10(15000) - 3); }
+function rawToGPa(raw) { return Math.pow(10, raw / 200 * Math.log10(150000) - 3); }
+
 function formatPress(p) {
   if (p < 0.01) return (p*1000).toFixed(1) + ' МПа';
   if (p < 1)    return p.toFixed(3) + ' ГПа';
-  return p.toFixed(2) + ' ГПа';
+  if (p < 100)  return p.toFixed(2) + ' ГПа';
+  return p.toFixed(1) + ' ГПа';
 }
+
 function getConditions() {
   return {
-    temp:  parseInt(document.getElementById('tempSlider').value),
-    press: rawToGPa(parseInt(document.getElementById('pressSlider').value))
+    temp:  parseInt(document.getElementById('ts').value),
+    press: rawToGPa(parseInt(document.getElementById('ps').value))
   };
 }
 
 function updateGlow() {
-  const { temp, press } = getConditions();
-  const ring = document.getElementById('reactorRing');
-  ring.classList.remove('glow-warm','glow-hot','glow-pressure','glow-both');
-  if      (temp > 800 && press > 3) ring.classList.add('glow-both');
-  else if (temp > 800)              ring.classList.add('glow-hot');
-  else if (temp > 300)              ring.classList.add('glow-warm');
-  else if (press > 3)               ring.classList.add('glow-pressure');
+  const {temp, press} = getConditions();
+  const ring = document.getElementById('rr');
+  ring.classList.remove('gw','gh','gp','gb','gx');
+  if (temp > 8000 || press > 100) ring.classList.add('gx');
+  else if (temp > 2000 && press > 20) ring.classList.add('gb');
+  else if (temp > 2000)  ring.classList.add('gh');
+  else if (temp > 500)   ring.classList.add('gw');
+  else if (press > 20)   ring.classList.add('gp');
 }
 
 function doReaction() {
   if (selected.length === 0) return;
-  const btn = document.getElementById('reactBtn');
+  const btn = document.getElementById('rb');
   btn.classList.add('reacting');
   setTimeout(() => btn.classList.remove('reacting'), 500);
   spawnParticles();
-
-  const { temp, press } = getConditions();
+  const {temp, press} = getConditions();
   const key = [...selected].sort().join('+');
   const match = R.find(rx => {
     const rKey = [...rx.i].sort().join('+');
     return rKey === key && temp >= rx.minT && temp <= rx.maxT && press >= rx.minP && press <= rx.maxP;
   });
-
   setTimeout(() => {
     if (match) showResult(match.r);
-    else       showNoResult(temp, press);
+    else showNoResult(temp, press);
   }, 350);
 }
 
 function spawnParticles() {
-  const ring = document.getElementById('reactorRing');
+  const ring = document.getElementById('rr');
   const colors = ['#c080ff','#60b0ff','#ff8040','#40e0a0','#f0e040'];
   for (let i = 0; i < 16; i++) {
     const p = document.createElement('div');
     const angle = Math.random() * Math.PI * 2;
-    const dist  = 60 + Math.random() * 80;
-    const size  = 4 + Math.random() * 6;
-    p.className = 'particle';
-    p.style.cssText = 'width:' + size + 'px;height:' + size + 'px;left:50%;top:50%;margin-left:-' + (size/2) + 'px;margin-top:-' + (size/2) + 'px;background:' + colors[Math.floor(Math.random()*colors.length)] + ';--tx:' + (Math.cos(angle)*dist) + 'px;--ty:' + (Math.sin(angle)*dist) + 'px;animation-duration:' + (0.4+Math.random()*0.4) + 's;';
+    const dist = 55 + Math.random() * 75;
+    const size = 4 + Math.random() * 5;
+    p.className = 'pt';
+    p.style.cssText = 'width:'+size+'px;height:'+size+'px;left:50%;top:50%;margin-left:-'+(size/2)+'px;margin-top:-'+(size/2)+'px;background:'+colors[Math.floor(Math.random()*colors.length)]+';--tx:'+(Math.cos(angle)*dist)+'px;--ty:'+(Math.sin(angle)*dist)+'px;animation-duration:'+(0.4+Math.random()*0.4)+'s;';
     ring.appendChild(p);
     setTimeout(() => p.remove(), 800);
   }
 }
 
 function showResult(m) {
-  const pips = Array.from({length:10},(_,i) => '<div class="h-pip ' + (i < m.h ? 'on' : '') + '"></div>').join('');
+  const pips = Array.from({length:10},(_,i) => '<div class="hp'+(i<m.h?' on':'')+'"></div>').join('');
   const rows = Object.entries(m.pr).map(([k,v]) => {
-    if (k === 'Твёрдость') return '<tr><td>' + k + '</td><td>' + v + '<div class="hardness-bar">' + pips + '</div></td></tr>';
-    return '<tr><td>' + k + '</td><td>' + v + '</td></tr>';
+    if (k==='Твёрдость') return '<tr><td>'+k+'</td><td>'+v+'<div class="hb">'+pips+'</div></td></tr>';
+    return '<tr><td>'+k+'</td><td>'+v+'</td></tr>';
   }).join('');
-  document.getElementById('resultArea').innerHTML =
-    '<div class="mineral-card">' +
-    '<div class="mineral-hero">' +
-    '<span class="mineral-icon">' + m.ic + '</span>' +
-    '<div class="mineral-name">' + m.name + '</div>' +
-    '<div class="mineral-en">' + m.en + '</div>' +
-    '<div class="mineral-formula">' + m.f + '</div>' +
-    '<div class="mineral-desc">' + m.ds + '</div>' +
-    '</div>' +
-    '<div class="reaction-eq">⚗ ' + m.eq + '</div>' +
-    '<div class="props-section">' +
-    '<div class="props-title">Свойства минерала</div>' +
-    '<table class="props-table">' + rows + '</table>' +
-    '</div></div>';
+  const synBadge = m.syn ? '<div class="sb">&#9883; Синтетический / не встречается в природе</div>' : '';
+  document.getElementById('ra').innerHTML =
+    '<div class="mc"><div class="mh">'+
+    '<span class="mi">'+m.ic+'</span>'+
+    '<div class="mn">'+m.name+'</div>'+
+    '<div class="me">'+m.en+'</div>'+
+    '<div class="mf">'+m.f+'</div>'+
+    synBadge+
+    '<div class="md">'+m.ds+'</div>'+
+    '</div>'+
+    '<div class="eq">&#9879; '+m.eq+'</div>'+
+    '<div class="ps"><div class="pt2">Свойства минерала</div>'+
+    '<table class="ptb">'+rows+'</table></div></div>';
 }
 
 function showNoResult(temp, press) {
-  const names = selected.map(id => { const i = INGREDIENTS.find(x=>x.id===id); return i ? i.name : id; }).join(', ');
-  const key   = [...selected].sort().join('+');
-  const near  = R.filter(rx => [...rx.i].sort().join('+') === key);
-  let hintHtml = '';
+  const names = selected.map(id => { const i = INGREDIENTS.find(x=>x.id===id); return i?i.name:id; }).join(', ');
+  const key = [...selected].sort().join('+');
+  const near = R.filter(rx => [...rx.i].sort().join('+') === key);
+  let hint = '';
   if (near.length > 0) {
-    const hints = near.map(rx =>
-      '&bull; <b>' + rx.r.name + '</b>: T = ' + rx.minT + '–' + rx.maxT + ' °C, P = ' + formatPress(rx.minP) + ' – ' + formatPress(rx.maxP)
+    const h = near.map(rx =>
+      '&bull; <b>'+rx.r.name+'</b>: T = '+rx.minT+'–'+rx.maxT+' °C, P = '+formatPress(rx.minP)+' – '+formatPress(rx.maxP)
     ).join('<br>');
-    hintHtml = '<div class="nr-hint">Реакция возможна при других условиях:<br>' + hints + '</div>';
+    hint = '<div class="nh">Реакция возможна при других условиях:<br>'+h+'</div>';
   } else {
-    hintHtml = '<div class="nr-hint">Попробуйте другую комбинацию реагентов или добавьте O₂.</div>';
+    hint = '<div class="nh">Попробуйте другую комбинацию или добавьте O₂ / CO₂.</div>';
   }
-  document.getElementById('resultArea').innerHTML =
-    '<div class="no-reaction">' +
-    '<div class="nr-icon">💨</div>' +
-    '<div class="nr-title">Реакция не произошла</div>' +
-    '<div class="nr-text">При T = ' + temp + ' °C и P = ' + formatPress(press) + '<br>реагенты <em>' + names + '</em><br>не образуют известного минерала.</div>' +
-    hintHtml + '</div>';
+  document.getElementById('ra').innerHTML =
+    '<div class="nr">'+
+    '<div class="ni">&#128168;</div>'+
+    '<div class="ntt">Реакция не произошла</div>'+
+    '<div class="nt">При T = '+temp+' °C и P = '+formatPress(press)+'<br>реагенты <em>'+names+'</em><br>не образуют известного минерала.</div>'+
+    hint+'</div>';
 }
 
 init();
