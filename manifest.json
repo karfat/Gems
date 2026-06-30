@@ -4,7 +4,7 @@
   "description": "Соединяйте элементы таблицы Менделеева и минералы при разных условиях температуры и давления",
   "start_url": "./mineral_lab.html",
   "display": "standalone",
-  "orientation": "landscape",
+  "orientation": "portrait",
   "background_color": "#07080f",
   "theme_color": "#07080f",
   "icons": [
